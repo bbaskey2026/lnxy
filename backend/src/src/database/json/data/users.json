@@ -1,0 +1,13 @@
+[
+  {
+    "id": "f257b8c1-20d8-4163-864b-dc2a2b2d060a",
+    "createdAt": "2026-11-24T19:21:03.939Z",
+    "updatedAt": "2026-11-24T19:21:03.939Z",
+    "name": "BHIMA BASKEY",
+    "email": "bhimabaskey26@gmail.com",
+    "passwordHash": "$argon2id$v=19$m=65536,t=3,p=4$uu0u8MSPaIO2zJmzT79zKA$qcyMB2PFslt1J+a5rlMkpdTeokYMz+0cHsfLAeSlcqc",
+    "role": "student",
+    "status": "active",
+    "targetExam": null
+  }
+]

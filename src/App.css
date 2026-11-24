@@ -1,0 +1,9 @@
+* {
+  box-sizing: border-box;
+}
+
+button,
+a,
+input {
+  font-family: inherit;
+}

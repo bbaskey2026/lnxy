@@ -1,0 +1,88 @@
+import { useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  CircularProgress,
+  LinearProgress,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+} from '@mui/material'
+import { BookOpen, Clock3, Star } from 'lucide-react'
+import { enrollCourse, fetchCourses } from '../../store/slices/courseSlice'
+
+export default function CourseListPage() {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { items, enrolledIds, loading } = useSelector((state) => state.courses)
+  const [view, setView] = useState('all')
+
+  useEffect(() => {
+    dispatch(fetchCourses())
+  }, [dispatch])
+
+  const filtered = useMemo(
+    () => view === 'enrolled' ? items.filter((course) => enrolledIds.includes(course.id)) : items,
+    [items, view, enrolledIds],
+  )
+
+  return (
+    <Box sx={{ p: { xs: 2, md: 3 }, maxWidth: 1440, mx: 'auto' }}>
+      <Typography variant="h4" sx={{ mb: 0.5 }}>Courses</Typography>
+      <Typography color="text.secondary" sx={{ mb: 2 }}>Build your preparation journey with expert-led courses.</Typography>
+      <Tabs value={view} onChange={(_, value) => setView(value)} sx={{ mb: 3 }}>
+        <Tab value="all" label="All courses" />
+        <Tab value="enrolled" label={`My courses (${enrolledIds.length})`} />
+      </Tabs>
+      {loading && <CircularProgress />}
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }, gap: 2 }}>
+        {filtered.map((course) => {
+          const enrolled = enrolledIds.includes(course.id)
+          return (
+            <Card key={course.id} sx={{ height: '100%' }}>
+              <CardContent sx={{ p: 2.5, height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
+                  <Avatar variant="rounded" sx={{ width: 58, height: 58, bgcolor: 'primary.light', color: 'primary.main', fontWeight: 900 }}>
+                    {course.category.slice(0, 2).toUpperCase()}
+                  </Avatar>
+                  <Chip label={course.category} size="small" variant="outlined" />
+                </Stack>
+                <Typography variant="h6" sx={{ mt: 2 }}>{course.title}</Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>By {course.instructor}</Typography>
+                <Stack direction="row" spacing={2} sx={{ my: 2 }}>
+                  <Stack direction="row" spacing={0.5} alignItems="center"><BookOpen size={15} /><Typography variant="caption">{course.lectures} lessons</Typography></Stack>
+                  <Stack direction="row" spacing={0.5} alignItems="center"><Clock3 size={15} /><Typography variant="caption">{course.duration}</Typography></Stack>
+                  <Stack direction="row" spacing={0.5} alignItems="center"><Star size={15} fill="#f59e0b" color="#f59e0b" /><Typography variant="caption">{course.rating}</Typography></Stack>
+                </Stack>
+                {enrolled && (
+                  <Box sx={{ mb: 2 }}>
+                    <Stack direction="row" justifyContent="space-between" sx={{ mb: 0.5 }}>
+                      <Typography variant="caption" color="text.secondary">Progress</Typography>
+                      <Typography variant="caption" fontWeight={800}>{course.progress}%</Typography>
+                    </Stack>
+                    <LinearProgress variant="determinate" value={course.progress} sx={{ height: 6, borderRadius: 99 }} />
+                  </Box>
+                )}
+                <Stack direction="row" spacing={1} sx={{ mt: 'auto' }}>
+                  <Button variant="contained" sx={{ flex: 1 }} onClick={() => navigate(`/student/courses/${course.id}`)}>
+                    {enrolled ? 'Continue' : 'View course'}
+                  </Button>
+                  {!enrolled && (
+                    <Button variant="outlined" onClick={() => dispatch(enrollCourse(course.id))}>Enroll</Button>
+                  )}
+                </Stack>
+              </CardContent>
+            </Card>
+          )
+        })}
+      </Box>
+    </Box>
+  )
+}

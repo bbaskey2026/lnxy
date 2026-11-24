@@ -1,0 +1,66 @@
+[
+  {
+    "id": "459c52e8-7733-46ae-bf5b-3f43d7757deb",
+    "instructorId": "09ab17ab-a94f-45d2-9a9e-dfaf5ce5ac90",
+    "instructorName": "Rohit Sharma",
+    "title": "SSC CGL Complete Foundation",
+    "description": "A complete preparation course covering Quantitative Aptitude, Reasoning, English, and General Studies.",
+    "category": "SSC",
+    "rating": 4.8,
+    "studentCount": 18420,
+    "lectureCount": 86,
+    "duration": "64h",
+    "progress": 68,
+    "isPublished": true,
+    "modules": [
+      {
+        "title": "Quantitative Aptitude",
+        "lessons": 24
+      },
+      {
+        "title": "Reasoning Ability",
+        "lessons": 22
+      },
+      {
+        "title": "English Language",
+        "lessons": 18
+      },
+      {
+        "title": "General Studies",
+        "lessons": 22
+      }
+    ]
+  },
+  {
+    "id": "6f1305fc-e54a-4708-89df-c80420512115",
+    "instructorId": "7a977e67-6c86-427a-8f09-c97ee0890c4e",
+    "instructorName": "Priya Das",
+    "title": "OSSSC RI, ARI & AMIN Masterclass",
+    "description": "Focused preparation for Odisha Revenue and Inspector examinations with local current affairs.",
+    "category": "Odisha",
+    "rating": 4.7,
+    "studentCount": 9650,
+    "lectureCount": 72,
+    "duration": "52h",
+    "progress": 44,
+    "isPublished": true,
+    "modules": [
+      {
+        "title": "Arithmetic",
+        "lessons": 20
+      },
+      {
+        "title": "Mental Ability",
+        "lessons": 16
+      },
+      {
+        "title": "Odisha GK",
+        "lessons": 21
+      },
+      {
+        "title": "Odisha Current Affairs",
+        "lessons": 15
+      }
+    ]
+  }
+]

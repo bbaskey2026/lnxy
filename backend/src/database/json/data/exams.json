@@ -1,0 +1,19 @@
+[
+  {
+    "id": "db45d89a-31d4-4108-9972-5d3022664f2d",
+    "createdAt": "2026-11-24T19:23:22.797Z",
+    "updatedAt": "2026-11-24T19:23:22.849Z",
+    "name": "SSC CHSL",
+    "slug": "ssc-chsl",
+    "category": "SSC Examinations",
+    "description": "Clerical recruitment examination.",
+    "eligibility": "",
+    "pattern": "",
+    "syllabus": [],
+    "subjects": [],
+    "totalMarks": 220,
+    "durationMinutes": 60,
+    "negativeMarking": 0,
+    "isActive": true
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "id": "9c97ba03-d191-45c7-af3e-d86597c8be9e",
+    "name": "Admin Test",
+    "email": "admin@exampro.com",
+    "passwordHash": "$argon2id$v=19$m=19456,t=2,p=1$EMi/wfUC/ukdKOPkFe+Fkw$KY4A/e+UscqrtPv/LgvWG9E2vZpVJVUqjjikasQVR1Y",
+    "role": "admin",
+    "status": "active",
+    "createdAt": "2026-11-24T19:23:22.042Z",
+    "updatedAt": "2026-11-24T19:23:22.051Z"
+  },
+  {
+    "id": "78491b85-cc5d-4aec-a0e4-aafb687de550",
+    "createdAt": "2026-11-24T19:23:22.406Z",
+    "updatedAt": "2026-11-24T19:23:22.406Z",
+    "name": "Test Student",
+    "email": "student@example.com",
+    "passwordHash": "$argon2id$v=19$m=65536,t=3,p=4$cUXn9v2k7srENOy5YVIpJg$TlZ8Ptat0AMpvDZ1fywR3ys0gDPOQihQdjnTtzUkYnA",
+    "role": "student",
+    "status": "active",
+    "targetExam": null
+  }
+]
