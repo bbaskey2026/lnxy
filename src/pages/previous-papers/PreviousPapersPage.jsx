@@ -14,6 +14,7 @@ import {
   Typography,
 } from '@mui/material'
 import { Download, FileCheck2 } from 'lucide-react'
+import ExamLogo from '../../components/ExamLogo'
 import { fetchPreviousPapers } from '../../store/slices/previousPaperSlice'
 import { useAppFeedback } from '../../hooks/useAppFeedback'
 
@@ -76,7 +77,16 @@ export default function PreviousPapersPage() {
           <FormControl key={label} size="small" sx={{ minWidth: 180 }}>
             <InputLabel>{label}</InputLabel>
             <Select label={label} value={value} onChange={(event) => setter(event.target.value)}>
-              {values.map((item) => <MenuItem key={item} value={item}>{item === 'All' ? `All ${label.toLower}s` : item}</MenuItem>)}
+              {values.map((item) => (
+                <MenuItem key={item} value={item}>
+                  {item === 'All' ? `All ${label.toLower}s` : label === 'Examination' ? (
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <ExamLogo name={item} size={22} />
+                      {item}
+                    </Stack>
+                  ) : item}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         ))}
@@ -92,7 +102,10 @@ export default function PreviousPapersPage() {
                 <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
                   <Chip label={paper.year ?? 'Year unavailable'} color="primary" variant="outlined" />
                 </Stack>
-                <Typography variant="h6" sx={{ mt: 2 }}>{paper.title}</Typography>
+                <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 2 }}>
+                  <ExamLogo name={paper.examination ?? paper.title} size={32} />
+                  <Typography variant="h6">{paper.title}</Typography>
+                </Stack>
                 <Typography variant="body2" color="text.secondary" sx={{ mt: 0.75 }}>
                   {[paper.subject, paper.questions ? `${paper.questions} questions` : null, paper.size].filter(Boolean).join(' • ')}
                 </Typography>

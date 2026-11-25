@@ -9,6 +9,7 @@ import {
 } from '@mui/material'
 import { Bookmark, BookmarkCheck, Download, Eye } from 'lucide-react'
 import ContentPreviewImage from '../preview/ContentPreviewImage'
+import ExamLogo from '../ExamLogo'
 
 export default function ResourceCard({
   resource,
@@ -40,7 +41,10 @@ export default function ResourceCard({
             </IconButton>
           </Tooltip>
         </Stack>
-        <Typography variant="h6" sx={{ mt: 1, fontSize: 15, lineHeight: 1.4 }}>{resource.title}</Typography>
+        <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 1 }}>
+          <ExamLogo name={resource.examination ?? resource.title} size={28} />
+          <Typography variant="h6" sx={{ fontSize: 15, lineHeight: 1.4 }}>{resource.title}</Typography>
+        </Stack>
         <Typography variant="body2" color="text.secondary" sx={{ mt: 0.75, flexGrow: 1 }}>
           {resource.description}
         </Typography>
@@ -49,7 +53,7 @@ export default function ResourceCard({
           <Chip label={`${resource.pages} pages`} size="small" variant="outlined" />
         </Stack>
         <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1.5 }}>
-          <Typography variant="caption" color="text.secondary">{resource.examination} • {resource.size}</Typography>
+          <Typography variant="caption" color="text.secondary">{resource.size}</Typography>
           <Typography variant="caption" fontWeight={800}>{resource.popularity}% popular</Typography>
         </Stack>
         <Stack direction="row" spacing={1}>

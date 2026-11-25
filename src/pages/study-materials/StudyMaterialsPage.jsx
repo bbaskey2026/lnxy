@@ -20,6 +20,7 @@ import {
   Typography,
 } from '@mui/material'
 import { Search } from 'lucide-react'
+import ExamLogo from '../../components/ExamLogo'
 import ResourceCard from '../../components/cards/ResourceCard'
 import ContentPreviewImage from '../../components/preview/ContentPreviewImage'
 import { useAppFeedback } from '../../hooks/useAppFeedback'
@@ -106,7 +107,14 @@ export default function StudyMaterialsPage() {
             <InputLabel>Examination</InputLabel>
             <Select label="Examination" value={examination} onChange={(event) => setExamination(event.target.value)}>
               <MenuItem value="All">All examinations</MenuItem>
-              {uniqueValues(items, 'examination').map((value) => <MenuItem key={value} value={value}>{value}</MenuItem>)}
+              {uniqueValues(items, 'examination').map((value) => (
+                <MenuItem key={value} value={value}>
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    <ExamLogo name={value} size={22} />
+                    {value}
+                  </Stack>
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
           <FormControl size="small" sx={{ minWidth: { md: 150 } }}>
@@ -185,7 +193,11 @@ export default function StudyMaterialsPage() {
               <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>{preview.description}</Typography>
               <Divider sx={{ mb: 2 }} />
               <Stack spacing={1}>
-                <Typography variant="body2"><strong>Examination:</strong> {preview.examination}</Typography>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Typography variant="body2"><strong>Examination:</strong></Typography>
+                  <ExamLogo name={preview.examination} size={22} />
+                  <Typography variant="body2">{preview.examination}</Typography>
+                </Stack>
                 <Typography variant="body2"><strong>Subject:</strong> {preview.subject}</Typography>
                 <Typography variant="body2"><strong>Topic:</strong> {preview.topic}</Typography>
                 <Typography variant="body2"><strong>Format:</strong> {preview.format} • {preview.pages} pages • {preview.size}</Typography>

@@ -15,7 +15,6 @@ import {
   ArrowRight,
   BarChart3,
   BookOpen,
-  Bookmark,
   ClipboardCheck,
   Clock3,
   GraduationCap,
@@ -27,14 +26,15 @@ import {
 import { examService } from '../../services/examService'
 import { mockTestService } from '../../services/mockTestService'
 import { platformService } from '../../services/platformService'
+import ExamLogo from '../../components/ExamLogo'
 
 const examCategories = [
-  { name: 'SSC Exams', exams: '33 Exams', icon: 'SC', color: '#eef2ff' },
-  { name: 'Banking Exams', exams: '81 Exams', icon: 'BK', color: '#f3f7ff' },
-  { name: 'Teaching Exams', exams: '174 Exams', icon: 'TG', color: '#edf4ff' },
-  { name: 'Civil Services', exams: '27 Exams', icon: 'CS', color: '#f3f3f3' },
-  { name: 'Railways Exams', exams: '35 Exams', icon: 'RW', color: '#eff6ff' },
-  { name: 'State Govt. Exams', exams: '691 Exams', icon: 'SG', color: '#f3f3f3' },
+  { name: 'SSC Exams', exams: '33 Exams', color: '#eef2ff' },
+  { name: 'Banking Exams', exams: '81 Exams', color: '#f3f7ff' },
+  { name: 'Teaching Exams', exams: '174 Exams', color: '#edf4ff' },
+  { name: 'Civil Services', exams: '27 Exams', color: '#f3f3f3' },
+  { name: 'Railways Exams', exams: '35 Exams', color: '#eff6ff' },
+  { name: 'State Govt. Exams', exams: '691 Exams', color: '#f3f3f3' },
 ]
 
 const preparationSteps = [
@@ -159,16 +159,24 @@ export default function HomePage() {
           <Typography color="text.secondary" sx={{ mt: 1 }}>Get exam-ready with concepts, questions and study notes as per the latest pattern</Typography>
         </Box>
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(3, 1fr)', md: 'repeat(6, 1fr)' }, gap: 2 }}>
-          {examCategories.map((category) => (
-            <Card component={RouterLink} to="/exams" key={category.name} sx={{ textDecoration: 'none', color: 'inherit', textAlign: 'center', p: 2, transition: 'transform .18s, box-shadow .18s', '&:hover': { transform: 'translateY(-5px)', boxShadow: '0 14px 30px rgba(31,45,103,.10)' } }}>
-              <Box sx={{ width: 58, height: 58, mx: 'auto', mb: 1.5, bgcolor: category.color, color: 'primary.main', display: 'grid', placeItems: 'center', fontWeight: 900, fontSize: 18 }}>
-                {category.icon}
+          {examCategories.map(({ name, exams, color }) => (
+            <Card component={RouterLink} to="/exams" key={name} sx={{ textDecoration: 'none', color: 'inherit', textAlign: 'center', p: 2, transition: 'transform .18s, box-shadow .18s', '&:hover': { transform: 'translateY(-5px)', boxShadow: '0 14px 30px rgba(31,45,103,.10)' } }}>
+              <Box sx={{ width: 64, height: 58, mx: 'auto', mb: 1.5, bgcolor: color, display: 'grid', placeItems: 'center', p: 0.75 }}>
+                <ExamLogo name={name} size={48} />
               </Box>
-              <Typography variant="body2" fontWeight={850} sx={{ minHeight: 38 }}>{category.name}</Typography>
-              <Typography variant="caption" color="text.secondary">{category.exams}</Typography>
+              <Typography variant="body2" fontWeight={850} sx={{ minHeight: 38 }}>{name}</Typography>
+              <Typography variant="caption" color="text.secondary">{exams}</Typography>
             </Card>
           ))}
         </Box>
+        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 2, textAlign: 'center' }}>
+          Organization logos: <a href="https://commons.wikimedia.org/wiki/File:Staff_Selection_Commission_Logo.jpg" target="_blank" rel="noreferrer">SSC</a>
+          {' · '}<a href="https://commons.wikimedia.org/wiki/File:IBPS_LOGO.png" target="_blank" rel="noreferrer">IBPS</a>
+          {' · '}<a href="https://commons.wikimedia.org/wiki/File:NTA_logo.png" target="_blank" rel="noreferrer">NTA</a>
+          {' · '}<a href="https://commons.wikimedia.org/wiki/File:Logo_-_Union_Public_Service_Commission_-_Government_of_India.jpg" target="_blank" rel="noreferrer">UPSC</a>
+          {' · '}<a href="https://commons.wikimedia.org/wiki/File:Indian_Railways_(acronym_wordmark).svg" target="_blank" rel="noreferrer">Indian Railways</a>
+          {' · '}<a href="/exam-logos/ATTRIBUTION.md">Image credits</a>
+        </Typography>
       </Container>
 
       <Box sx={{ bgcolor: '#f4f7fb', py: { xs: 5, md: 7 } }}>
@@ -225,9 +233,7 @@ export default function HomePage() {
             <Card key={exam.id} sx={{ height: '100%', transition: 'transform .18s', '&:hover': { transform: 'translateY(-4px)' } }}>
               <CardContent sx={{ p: 2.5 }}>
                 <Stack direction="row" spacing={1.5}>
-                  <Box sx={{ width: 52, height: 52, flexShrink: 0, bgcolor: 'primary.light', color: 'primary.main', display: 'grid', placeItems: 'center', fontWeight: 900 }}>
-                    {exam.shortName ?? exam.name.split(' ').map((part) => part[0]).join('').slice(0, 4).toUpperCase()}
-                  </Box>
+                  <ExamLogo name={exam.name} size={52} />
                   <Box sx={{ flex: 1, minWidth: 0 }}>
                     <Typography variant="caption" color="text.secondary">{exam.category}</Typography>
                     <Typography fontWeight={850} sx={{ mt: 0.25 }}>{exam.name}</Typography>

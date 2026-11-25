@@ -24,6 +24,7 @@ import {
   X,
 } from 'lucide-react'
 import { MockTestCard, MockTestStat } from '../../components/mock-tests/MockTestUI'
+import ExamLogo from '../../components/ExamLogo'
 import { fetchMockTests, startTest } from '../../store/slices/mockTestSlice'
 
 const fieldSx = {
@@ -131,7 +132,16 @@ export default function MockTestListPage() {
               onChange={(event) => setExamination(event.target.value)}
               displayEmpty
             >
-              {exams.map((item) => <MenuItem key={item} value={item}>{item === 'All' ? 'All examinations' : item}</MenuItem>)}
+              {exams.map((item) => (
+                <MenuItem key={item} value={item}>
+                  {item === 'All' ? 'All examinations' : (
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <ExamLogo name={item} size={22} />
+                      {item}
+                    </Stack>
+                  )}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
           <Button

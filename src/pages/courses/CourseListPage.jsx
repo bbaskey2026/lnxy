@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {
-  Avatar,
   Alert,
   Box,
   Button,
@@ -18,6 +17,7 @@ import {
 } from '@mui/material'
 import { BookOpen, Clock3, Star } from 'lucide-react'
 import { enrollCourse, fetchCourses, fetchEnrolledCourses } from '../../store/slices/courseSlice'
+import ExamLogo from '../../components/ExamLogo'
 
 export default function CourseListPage() {
   const dispatch = useDispatch()
@@ -53,9 +53,7 @@ export default function CourseListPage() {
             <Card key={course.id} sx={{ height: '100%' }}>
               <CardContent sx={{ p: 2.5, height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
-                  <Avatar variant="rounded" sx={{ width: 58, height: 58, bgcolor: 'primary.light', color: 'primary.main', fontWeight: 900 }}>
-                    {(course.category ?? '').slice(0, 2).toUpperCase()}
-                  </Avatar>
+                  <ExamLogo name={course.title} size={58} />
                   <Chip label={course.category} size="small" variant="outlined" />
                 </Stack>
                 <Typography variant="h6" sx={{ mt: 2 }}>{course.title}</Typography>

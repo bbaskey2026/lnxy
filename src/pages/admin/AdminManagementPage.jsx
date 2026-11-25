@@ -21,6 +21,7 @@ import {
   Typography,
 } from '@mui/material'
 import { Plus } from 'lucide-react'
+import ExamLogo from '../../components/ExamLogo'
 import {
   createAdminExam,
   fetchAdminSection,
@@ -131,7 +132,12 @@ export default function AdminManagementPage({ section }) {
             <TableBody>
               {rows.map((row) => (
                 <TableRow key={row.id} hover>
-                  <TableCell sx={{ fontWeight: 800 }}>{row.name ?? row.title}</TableCell>
+                  <TableCell>
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      {(section === 'exams' || section === 'courses') && <ExamLogo name={row.name ?? row.title} size={28} />}
+                      <Typography variant="body2" fontWeight={800}>{row.name ?? row.title}</Typography>
+                    </Stack>
+                  </TableCell>
                   <TableCell>
                     {section === 'users' ? (
                       <><Typography variant="body2">{row.email}</Typography><Typography variant="caption" color="text.secondary">{row.role}</Typography></>

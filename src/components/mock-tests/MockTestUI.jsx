@@ -16,6 +16,7 @@ import {
   Users,
 } from 'lucide-react'
 import { mockTestActionSx } from './mockTestStyles'
+import ExamLogo from '../ExamLogo'
 
 export function MockTestCard({ test, onStart }) {
   const questionCount = test.questionCount ?? test.questions?.length ?? test.questionIds?.length ?? 0
@@ -44,9 +45,12 @@ export function MockTestCard({ test, onStart }) {
           size="small"
           sx={{ borderRadius: 0, bgcolor: '#edf4ff', color: '#0847c6', fontWeight: 800 }}
         />
-        <Typography variant="caption" color="text.secondary" fontWeight={700}>
-          {test.examination}
-        </Typography>
+        <Stack direction="row" spacing={0.75} alignItems="center">
+          <ExamLogo name={test.examination} size={24} />
+          <Typography variant="caption" color="text.secondary" fontWeight={700}>
+            {test.examination}
+          </Typography>
+        </Stack>
       </Stack>
 
       <Typography

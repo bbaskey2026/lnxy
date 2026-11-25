@@ -30,6 +30,7 @@ import {
   Trophy,
 } from 'lucide-react'
 import ConfirmationDialog from '../../components/ConfirmationDialog'
+import ExamLogo from '../../components/ExamLogo'
 import {
   AnswerOption,
   QuestionPalette,
@@ -149,7 +150,10 @@ export default function MockTestPage() {
                 </Box>
                 <Box sx={{ minWidth: 0 }}>
                   <Typography sx={{ fontSize: 14, lineHeight: 1.3, fontWeight: 800 }} noWrap>{test.title}</Typography>
-                  <Typography variant="caption" color="text.secondary" noWrap>{test.examination}</Typography>
+                  <Stack direction="row" spacing={0.75} alignItems="center" sx={{ mt: 0.25 }}>
+                    <ExamLogo name={test.examination} size={20} />
+                    <Typography variant="caption" color="text.secondary" noWrap>{test.examination}</Typography>
+                  </Stack>
                 </Box>
               </Stack>
             </Box>

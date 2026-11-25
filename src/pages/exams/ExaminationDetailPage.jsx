@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Avatar, Box, Button, Chip, Container, Divider, Stack, Typography } from '@mui/material'
+import { Box, Button, Chip, Container, Divider, Stack, Typography } from '@mui/material'
 import { ArrowLeft, Clock3, FileCheck2, Target, Users } from 'lucide-react'
 import { examService } from '../../services/examService'
+import ExamLogo from '../../components/ExamLogo'
 
 export default function ExaminationDetailPage() {
   const { examId } = useParams()
@@ -42,9 +43,7 @@ export default function ExaminationDetailPage() {
       </Button>
       <Box sx={{ p: { xs: 2.5, md: 4 }, bgcolor: 'primary.main', color: 'white', borderRadius: 3, mb: 3 }}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems={{ sm: 'center' }}>
-          <Avatar sx={{ width: 72, height: 72, bgcolor: 'rgba(255,255,255,.15)', fontWeight: 900, fontSize: 16 }}>
-            {exam.shortName ?? exam.name.split(' ').map((part) => part[0]).join('').slice(0, 4).toUpperCase()}
-          </Avatar>
+          <ExamLogo name={exam.name} size={72} />
           <Box sx={{ flex: 1 }}>
             <Typography variant="h4">{exam.name}</Typography>
             <Typography sx={{ mt: 1, opacity: 0.82 }}>{exam.description}</Typography>

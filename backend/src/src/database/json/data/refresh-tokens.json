@@ -398,5 +398,13 @@
     "expiresAt": "2026-12-02T16:30:58.233Z",
     "revoked": true,
     "createdAt": "2026-11-25T16:30:58.233Z"
+  },
+  {
+    "id": "61a7e981-fb7d-4bf8-b5f8-66afe0c3ca35",
+    "userId": "f257b8c1-20d8-4163-864b-dc2a2b2d060a",
+    "tokenHash": "da4152fa924d902cccbdcd82dc764f5f1f62d0c873d2e2ad3b9b61b1edacf737",
+    "expiresAt": "2026-12-02T16:54:39.199Z",
+    "revoked": false,
+    "createdAt": "2026-11-25T16:54:39.199Z"
   }
 ]

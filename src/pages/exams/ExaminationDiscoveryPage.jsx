@@ -16,6 +16,7 @@ import {
 } from '@mui/material'
 import { ArrowRight, Search } from 'lucide-react'
 import { examService } from '../../services/examService'
+import ExamLogo from '../../components/ExamLogo'
 
 export default function ExaminationDiscoveryPage() {
   const navigate = useNavigate()
@@ -77,9 +78,7 @@ export default function ExaminationDiscoveryPage() {
           <Card key={exam.id} sx={{ height: '100%' }}>
             <CardContent sx={{ p: 2.5, height: '100%', display: 'flex', flexDirection: 'column' }}>
               <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
-                <Box sx={{ width: 52, height: 52, borderRadius: 2, bgcolor: 'primary.light', color: 'primary.main', display: 'grid', placeItems: 'center', fontWeight: 900 }}>
-                  {exam.shortName ?? exam.name.split(' ').map((part) => part[0]).join('').slice(0, 4).toUpperCase()}
-                </Box>
+                <ExamLogo name={exam.name} size={52} />
                 <Chip label={exam.category} size="small" variant="outlined" />
               </Stack>
               <Typography variant="h6" sx={{ mt: 2 }}>{exam.name}</Typography>

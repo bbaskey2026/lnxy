@@ -18,6 +18,7 @@ import {
   Typography,
 } from '@mui/material'
 import { CheckCircle2, ChevronLeft, ChevronRight, XCircle } from 'lucide-react'
+import ExamLogo from '../../components/ExamLogo'
 import {
   answerPractice,
   fetchPracticeQuestions,
@@ -106,7 +107,16 @@ export default function PracticePage() {
                 if (key === 'type') setType(event.target.value)
               }}
             >
-              {values.map((item) => <MenuItem key={item} value={item}>{item === 'All' ? `All ${label.toLowerCase()}` : item}</MenuItem>)}
+              {values.map((item) => (
+                <MenuItem key={item} value={item}>
+                  {item === 'All' ? `All ${label.toLowerCase()}` : key === 'examination' ? (
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <ExamLogo name={item} size={22} />
+                      {item}
+                    </Stack>
+                  ) : item}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         ))}
@@ -132,7 +142,13 @@ export default function PracticePage() {
         <Box sx={{ bgcolor: 'white', border: '1px solid #e9edf4', borderRadius: 2.5, p: { xs: 2, md: 3 } }}>
           <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
             <Typography fontWeight={800}>Question {safeIndex + 1} of {filtered.length}</Typography>
-            <Stack direction="row" spacing={1}>
+            <Stack direction="row" spacing={1} alignItems="center">
+              {question.examination && (
+                <Stack direction="row" spacing={0.75} alignItems="center">
+                  <ExamLogo name={question.examination} size={24} />
+                  <Typography variant="caption" color="text.secondary">{question.examination}</Typography>
+                </Stack>
+              )}
               <Chip label={question.difficulty} size="small" />
               {question.previousYear && <Chip label="Previous year" size="small" variant="outlined" />}
             </Stack>

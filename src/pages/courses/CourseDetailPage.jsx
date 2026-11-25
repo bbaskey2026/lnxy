@@ -6,6 +6,7 @@ import { ArrowLeft, Clock3, PlayCircle, Star } from 'lucide-react'
 import { enrollCourse, fetchCourses, fetchEnrolledCourses, selectCourse } from '../../store/slices/courseSlice'
 import { fetchLectures } from '../../store/slices/lectureSlice'
 import { useAppFeedback } from '../../hooks/useAppFeedback'
+import ExamLogo from '../../components/ExamLogo'
 
 export default function CourseDetailPage() {
   const { courseId } = useParams()
@@ -59,9 +60,7 @@ export default function CourseDetailPage() {
       <Button startIcon={<ArrowLeft size={16} />} onClick={() => navigate('/student/courses')} sx={{ mb: 2 }}>All courses</Button>
       <Box sx={{ p: { xs: 2.5, md: 4 }, bgcolor: 'primary.main', color: 'white', borderRadius: 3, mb: 3 }}>
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} alignItems={{ md: 'center' }}>
-          <Avatar variant="rounded" sx={{ width: 100, height: 100, bgcolor: 'rgba(255,255,255,.15)', fontSize: 24, fontWeight: 900 }}>
-            {(selectedCourse.category ?? '').slice(0, 2).toUpperCase()}
-          </Avatar>
+          <ExamLogo name={selectedCourse.title} size={100} />
           <Box sx={{ flex: 1 }}>
             <Chip label={selectedCourse.category} sx={{ bgcolor: 'rgba(255,255,255,.15)', color: 'white', mb: 1 }} />
             <Typography variant="h4">{selectedCourse.title}</Typography>
