@@ -5,31 +5,31 @@ import { Building2, GraduationCap } from 'lucide-react'
 const logos = [
   {
     matches: /\bssc\b|staff selection/i,
-    src: 'https://upload.wikimedia.org/wikipedia/commons/6/64/Staff_Selection_Commission_Logo.jpg',
+    src: '/exam-logos/ssc.jpg',
     alt: 'Staff Selection Commission logo',
     fallback: 'SSC',
   },
   {
     matches: /\bibps\b|bank/i,
-    src: 'https://upload.wikimedia.org/wikipedia/commons/d/db/IBPS_LOGO.png',
+    src: '/exam-logos/ibps.png',
     alt: 'Institute of Banking Personnel Selection logo',
     fallback: 'IBPS',
   },
   {
     matches: /\bupsc\b|civil services/i,
-    src: 'https://upload.wikimedia.org/wikipedia/commons/6/67/Logo_-_Union_Public_Service_Commission_-_Government_of_India.jpg',
+    src: '/exam-logos/upsc.jpg',
     alt: 'Union Public Service Commission logo',
     fallback: 'UPSC',
   },
   {
     matches: /\bnta\b|teaching|ctet|ugc net/i,
-    src: 'https://upload.wikimedia.org/wikipedia/commons/8/89/NTA_logo.png',
+    src: '/exam-logos/nta.png',
     alt: 'National Testing Agency logo',
     fallback: 'NTA',
   },
   {
     matches: /\brrb\b|railway/i,
-    src: 'https://upload.wikimedia.org/wikipedia/commons/7/7a/Indian_Railways_%28acronym_wordmark%29.svg',
+    src: '/exam-logos/railways.svg',
     alt: 'Indian Railways wordmark',
     fallback: 'IR',
   },
