@@ -1,13 +1,4 @@
-import { axiosClient } from '../api/axiosClient'
+import { API_ENDPOINTS } from '../api/endpoints'
+import { createCrudService } from './crudService'
 
-export const examService = {
-  async list() {
-    const response = await axiosClient.get('/exams')
-    return response.data.data
-  },
-
-  async getById(examId) {
-    const response = await axiosClient.get(`/exams/${examId}`)
-    return response.data.data
-  },
-}
+export const examService = createCrudService(API_ENDPOINTS.exams, 'examId')

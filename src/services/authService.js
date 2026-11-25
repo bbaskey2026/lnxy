@@ -1,44 +1,23 @@
-import { axiosClient } from '../api/axiosClient'
-
-let accessToken = null
-
-export function setAccessToken(token) {
-  accessToken = token
-}
-
-export function getAccessToken() {
-  return accessToken
-}
-
-axiosClient.interceptors.request.use((request) => {
-  if (accessToken) request.headers.Authorization = `Bearer ${accessToken}`
-  return request
-})
+import { api } from '../api/api'
+import { API_ENDPOINTS } from '../api/endpoints'
+import { setAccessToken } from '../api/axiosClient'
 
 export const authService = {
   async login({ email, password }) {
-    try {
-      const response = await axiosClient.post('/auth/login', { email, password })
-      setAccessToken(response.data.data.accessToken)
-      return { ...response.data.data.user, accessToken: response.data.data.accessToken }
-    } catch (error) {
-      throw new Error(error.response?.data?.error?.message ?? 'Unable to sign in.')
-    }
+    const session = await api.post(API_ENDPOINTS.auth.login, { email, password })
+    setAccessToken(session.accessToken)
+    return { ...session.user, accessToken: session.accessToken }
   },
 
   async register({ name, email, password }) {
-    try {
-      const response = await axiosClient.post('/auth/register', { name, email, password })
-      setAccessToken(response.data.data.accessToken)
-      return { ...response.data.data.user, accessToken: response.data.data.accessToken }
-    } catch (error) {
-      throw new Error(error.response?.data?.error?.message ?? 'Unable to create account.')
-    }
+    const session = await api.post(API_ENDPOINTS.auth.register, { name, email, password })
+    setAccessToken(session.accessToken)
+    return { ...session.user, accessToken: session.accessToken }
   },
 
   async logout() {
     try {
-      await axiosClient.post('/auth/logout')
+      await api.post(API_ENDPOINTS.auth.logout)
     } finally {
       setAccessToken(null)
     }
@@ -46,12 +25,16 @@ export const authService = {
 
   async refresh() {
     try {
-      const response = await axiosClient.post('/auth/refresh')
-      setAccessToken(response.data.data.accessToken)
-      return { ...response.data.data.user, accessToken: response.data.data.accessToken }
+      const session = await api.post(API_ENDPOINTS.auth.refresh)
+      setAccessToken(session.accessToken)
+      return { ...session.user, accessToken: session.accessToken }
     } catch (error) {
       setAccessToken(null)
-      throw new Error(error.response?.data?.error?.message ?? 'Session expired.')
+      throw error
     }
+  },
+
+  async me() {
+    return api.get(API_ENDPOINTS.auth.me)
   },
 }

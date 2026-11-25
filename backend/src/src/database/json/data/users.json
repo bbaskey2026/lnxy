@@ -9,5 +9,16 @@
     "role": "student",
     "status": "active",
     "targetExam": null
+  },
+  {
+    "id": "7978b2e7-1cae-4307-a151-ed2e74db4c17",
+    "createdAt": "2026-11-25T03:36:05.951Z",
+    "updatedAt": "2026-11-25T03:36:05.951Z",
+    "name": "Bhima Baskey",
+    "email": "bhimabaskey8810692291@gmail.com",
+    "passwordHash": "$argon2id$v=19$m=65536,t=3,p=4$2AQrOxJu1xizXM/gUzUhJA$Bc41gX0KPmbij4ru3VluxMC2Gu44mc6PyDMXu95TItE",
+    "role": "student",
+    "status": "active",
+    "targetExam": null
   }
 ]

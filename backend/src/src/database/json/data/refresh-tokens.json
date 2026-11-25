@@ -30,5 +30,45 @@
     "expiresAt": "2026-12-01T19:23:23.529Z",
     "revoked": false,
     "createdAt": "2026-11-24T19:23:23.529Z"
+  },
+  {
+    "id": "4699d0f0-8aa0-4c6e-9330-9a8f5eedc041",
+    "userId": "7978b2e7-1cae-4307-a151-ed2e74db4c17",
+    "tokenHash": "9f380c321247e40e8ffcdd0d029b91065bc19b1f44444262d3090654182c4186",
+    "expiresAt": "2026-12-02T03:36:05.967Z",
+    "revoked": true,
+    "createdAt": "2026-11-25T03:36:05.967Z"
+  },
+  {
+    "id": "bffae22c-1760-47f7-ae71-c877317aa634",
+    "userId": "7978b2e7-1cae-4307-a151-ed2e74db4c17",
+    "tokenHash": "bd4239d8622d33346caefb0a12b6d6382a93b229816d33536857782122f322ac",
+    "expiresAt": "2026-12-02T03:51:59.550Z",
+    "revoked": false,
+    "createdAt": "2026-11-25T03:51:59.550Z"
+  },
+  {
+    "id": "313fc0dc-4a6b-4c7a-9603-10331d1f2f25",
+    "userId": "7978b2e7-1cae-4307-a151-ed2e74db4c17",
+    "tokenHash": "82aad53e7a4e3364f394d41922160c02075494bfef6348cf638d2083d91bdf07",
+    "expiresAt": "2026-12-02T03:52:10.600Z",
+    "revoked": true,
+    "createdAt": "2026-11-25T03:52:10.600Z"
+  },
+  {
+    "id": "15f3e0ad-8d34-41bd-88ab-4abf3bea9d6c",
+    "userId": "7978b2e7-1cae-4307-a151-ed2e74db4c17",
+    "tokenHash": "030d9a45f9d58ae9aad7c1e727bcb3c6cd69caebd5d2ab6b2a7716671c496034",
+    "expiresAt": "2026-12-02T03:52:52.422Z",
+    "revoked": false,
+    "createdAt": "2026-11-25T03:52:52.423Z"
+  },
+  {
+    "id": "18871a50-b4c6-4ffa-bdc7-cea027be28b1",
+    "userId": "7978b2e7-1cae-4307-a151-ed2e74db4c17",
+    "tokenHash": "ad9506ba7d26821abecd323e7b7ec718b0499e74dcd553a9745bc9748de67760",
+    "expiresAt": "2026-12-02T03:53:41.638Z",
+    "revoked": false,
+    "createdAt": "2026-11-25T03:53:41.638Z"
   }
 ]
