@@ -87,8 +87,7 @@ export default function ExaminationDiscoveryPage() {
                 {exam.description}
               </Typography>
               <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
-                <Chip label={`${exam.mockTests ?? 0} tests`} size="small" />
-                <Chip label={`${exam.papers ?? 0} papers`} size="small" />
+                <Chip label={`${exam.subjects?.length ?? 0} subjects`} size="small" />
               </Stack>
               <Button
                 variant="outlined"

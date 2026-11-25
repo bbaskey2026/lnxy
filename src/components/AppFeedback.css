@@ -1,0 +1,100 @@
+.app-feedback {
+  position: fixed;
+  z-index: 1500;
+  right: 24px;
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: max-content;
+  max-width: min(440px, calc(100vw - 32px));
+  min-height: 52px;
+  padding: 10px 12px 10px 16px;
+  color: #fff;
+  background: #232323;
+  box-shadow: 0 8px 28px rgba(15, 23, 42, .2);
+  font: inherit;
+  animation: feedback-appear .18s ease-out;
+}
+
+.app-feedback-success {
+  background: #15803d;
+}
+
+.app-feedback-error {
+  background: #b91c1c;
+}
+
+.app-feedback-info {
+  background: #1d4ed8;
+}
+
+.app-feedback-warning {
+  background: #a16207;
+}
+
+.app-feedback-message {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.app-feedback-action,
+.app-feedback-close {
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+
+.app-feedback-action {
+  min-height: 36px;
+  padding: 0 8px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.app-feedback-close {
+  width: 36px;
+  height: 36px;
+}
+
+.app-feedback-action:hover,
+.app-feedback-close:hover {
+  background: rgba(255, 255, 255, .12);
+}
+
+.app-feedback-action:focus-visible,
+.app-feedback-close:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+@keyframes feedback-appear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .app-feedback {
+    right: 16px;
+    bottom: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-feedback {
+    animation: none;
+  }
+}

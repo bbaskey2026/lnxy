@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#164e63"/><stop offset="1" stop-color="#2563a6"/></linearGradient></defs>
+  <rect width="640" height="360" fill="url(#bg)"/><path d="M100 267h472M120 85v182" stroke="#dbeafe" stroke-opacity=".6" stroke-width="3"/>
+  <path d="M155 205h47v62h-47zm81-65h47v127h-47zm81 33h47v94h-47zm81-89h47v183h-47zm81 45h47v138h-47z" fill="#bae6fd"/>
+  <path d="M157 175h45m34-60h47m34 35h47m34-89h47m34 44h47" stroke="#fbbf24" stroke-width="7"/>
+  <circle cx="435" cy="89" r="9" fill="#fff"/><circle cx="516" cy="133" r="9" fill="#fff"/>
+  <text x="40" y="52" fill="#fde68a" font-family="Arial,sans-serif" font-size="15" font-weight="700" letter-spacing="3">STUDY MATERIAL</text>
+  <text x="40" y="326" fill="#fff" font-family="Arial,sans-serif" font-size="24" font-weight="700">DATA INTERPRETATION</text>
+</svg>

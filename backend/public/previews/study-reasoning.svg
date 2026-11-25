@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#713f12"/><stop offset="1" stop-color="#b45309"/></linearGradient></defs>
+  <rect width="640" height="360" fill="url(#bg)"/><circle cx="468" cy="166" r="96" fill="#fef3c7" fill-opacity=".11"/>
+  <path d="M360 90h160v160H360z" fill="none" stroke="#fde68a" stroke-width="9"/><path d="M392 90v42h37v45h-37v38h58v35m70-160v42h-35v45h35v38h-55v35" fill="none" stroke="#fff" stroke-width="7"/>
+  <circle cx="165" cy="149" r="55" fill="#fdba74"/><path d="m102 256 64-75 64 75Z" fill="#f8fafc"/><path d="m166 74 61 36-61 36-61-36Z" fill="#fcd34d"/>
+  <text x="40" y="52" fill="#fde68a" font-family="Arial,sans-serif" font-size="15" font-weight="700" letter-spacing="3">STUDY MATERIAL</text>
+  <text x="40" y="326" fill="#fff" font-family="Arial,sans-serif" font-size="24" font-weight="700">REASONING PRACTICE</text>
+</svg>

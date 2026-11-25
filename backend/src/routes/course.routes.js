@@ -7,6 +7,8 @@ import { createCourseValidator, updateCourseValidator } from '../validators/cour
 export function createCourseRoutes(controller, authenticateMiddleware) {
   const router = Router()
   router.get('/', asyncHandler(controller.list))
+  router.get('/enrolled', authenticateMiddleware.handle, asyncHandler(controller.listEnrolled))
+  router.post('/:courseId/enroll', authenticateMiddleware.handle, asyncHandler(controller.enroll))
   router.get('/:courseId', asyncHandler(controller.getById))
   router.post('/', authenticateMiddleware.handle, authorize('admin', 'instructor'), validateRequest(createCourseValidator), asyncHandler(controller.create))
   router.patch('/:courseId', authenticateMiddleware.handle, authorize('admin', 'instructor'), validateRequest(updateCourseValidator), asyncHandler(controller.update))

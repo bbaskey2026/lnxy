@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { Alert, Box, Button, Card, TextField, Typography } from '@mui/material'
+import { Box, Button, Card, TextField, Typography } from '@mui/material'
 import { setAuthenticatedUser } from '../../store/slices/authSlice'
 import { setProfile } from '../../store/slices/userSlice'
+import { useAppFeedback } from '../../hooks/useAppFeedback'
 
 const schema = Yup.object({
   name: Yup.string().required('Name is required'),
@@ -13,6 +14,7 @@ const schema = Yup.object({
 
 export default function ProfilePage() {
   const dispatch = useDispatch()
+  const { showToast } = useAppFeedback()
   const user = useSelector((state) => state.auth.currentUser)
   const profile = useSelector((state) => state.user.profile)
 
@@ -31,11 +33,11 @@ export default function ProfilePage() {
             dispatch(setAuthenticatedUser({ ...user, name: values.name, email: values.email }))
             dispatch(setProfile(values))
             helpers.setSubmitting(false)
+            showToast('Profile updated successfully.')
           }}
         >
-          {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, submitCount }) => (
+          {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ display: 'grid', gap: 2 }}>
-              {submitCount > 0 && !Object.keys(errors).length && <Alert severity="success">Profile updated successfully.</Alert>}
               {[
                 { name: 'name', label: 'Full name' },
                 { name: 'email', label: 'Email', type: 'email' },

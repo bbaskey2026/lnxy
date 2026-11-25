@@ -1,23 +1,33 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Avatar, Box, Button, Chip, LinearProgress, Stack, Typography } from '@mui/material'
-import { ArrowLeft, CheckCircle2, Clock3, PlayCircle, Star } from 'lucide-react'
-import { fetchCourses, selectCourse } from '../../store/slices/courseSlice'
+import { Alert, Avatar, Box, Button, Chip, CircularProgress, LinearProgress, Stack, Typography } from '@mui/material'
+import { ArrowLeft, Clock3, PlayCircle, Star } from 'lucide-react'
+import { enrollCourse, fetchCourses, fetchEnrolledCourses, selectCourse } from '../../store/slices/courseSlice'
+import { fetchLectures } from '../../store/slices/lectureSlice'
+import { useAppFeedback } from '../../hooks/useAppFeedback'
 
 export default function CourseDetailPage() {
   const { courseId } = useParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { items, selectedCourse, enrolledIds } = useSelector((state) => state.courses)
+  const { showToast } = useAppFeedback()
+  const { items, selectedCourse, enrolledIds, enrollmentsByCourseId, loading, enrollmentError } = useSelector((state) => state.courses)
+  const lectures = useSelector((state) => state.lectures.items)
 
   useEffect(() => {
     if (!items.length) dispatch(fetchCourses())
-  }, [dispatch, items.length])
+    dispatch(fetchEnrolledCourses())
+    if (!lectures.length) dispatch(fetchLectures())
+  }, [dispatch, items.length, lectures.length])
 
   useEffect(() => {
     dispatch(selectCourse(courseId))
   }, [dispatch, courseId, items])
+
+  if (!selectedCourse && loading) {
+    return <Box sx={{ p: 6, display: 'grid', placeItems: 'center' }}><CircularProgress /></Box>
+  }
 
   if (!selectedCourse) {
     return (
@@ -29,13 +39,28 @@ export default function CourseDetailPage() {
   }
 
   const enrolled = enrolledIds.includes(selectedCourse.id)
+  const progress = enrollmentsByCourseId[selectedCourse.id]?.progress ?? 0
+  const courseLecture = lectures.find((lecture) => lecture.courseId === selectedCourse.id)
+  const handleCourseAction = () => {
+    if (!enrolled) {
+      dispatch(enrollCourse(selectedCourse.id))
+      return
+    }
+    if (courseLecture) {
+      navigate(`/student/lectures/${courseLecture.id}`)
+      return
+    }
+    showToast('No lectures have been published for this course yet.', 'info')
+  }
+
   return (
     <Box sx={{ p: { xs: 2, md: 3 }, maxWidth: 1120, mx: 'auto' }}>
+      {enrollmentError && <Alert severity="error" sx={{ mb: 2 }}>{enrollmentError}</Alert>}
       <Button startIcon={<ArrowLeft size={16} />} onClick={() => navigate('/student/courses')} sx={{ mb: 2 }}>All courses</Button>
       <Box sx={{ p: { xs: 2.5, md: 4 }, bgcolor: 'primary.main', color: 'white', borderRadius: 3, mb: 3 }}>
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} alignItems={{ md: 'center' }}>
-          <Avatar variant="rounded" sx={{ width: 100, height: 100, bgcolor: 'rgba(255,255,255,.15)', fontSize: 28, fontWeight: 900 }}>
-            {selectedCourse.category.slice(0, 2).toUpperCase()}
+          <Avatar variant="rounded" sx={{ width: 100, height: 100, bgcolor: 'rgba(255,255,255,.15)', fontSize: 24, fontWeight: 900 }}>
+            {(selectedCourse.category ?? '').slice(0, 2).toUpperCase()}
           </Avatar>
           <Box sx={{ flex: 1 }}>
             <Chip label={selectedCourse.category} sx={{ bgcolor: 'rgba(255,255,255,.15)', color: 'white', mb: 1 }} />
@@ -47,9 +72,9 @@ export default function CourseDetailPage() {
               <Typography variant="body2">{selectedCourse.students.toLocaleString()} students</Typography>
             </Stack>
           </Box>
-          <Button variant="contained" color="inherit" sx={{ color: 'primary.main', minWidth: 150 }} onClick={() => navigate(`/student/lectures/lesson-1`)}>
+          <Button variant="contained" color="inherit" sx={{ color: 'primary.main', minWidth: 150 }} onClick={handleCourseAction}>
             <PlayCircle size={18} style={{ marginRight: 8 }} />
-            {enrolled ? 'Continue' : 'Preview'}
+            {enrolled ? 'Continue learning' : 'Enroll'}
           </Button>
         </Stack>
       </Box>
@@ -58,9 +83,9 @@ export default function CourseDetailPage() {
         <Box sx={{ mb: 3, p: 2, bgcolor: 'white', border: '1px solid #e9edf4', borderRadius: 2 }}>
           <Stack direction="row" justifyContent="space-between" sx={{ mb: 0.75 }}>
             <Typography fontWeight={800}>Course progress</Typography>
-            <Typography fontWeight={800}>{selectedCourse.progress}%</Typography>
+            <Typography fontWeight={800}>{progress}%</Typography>
           </Stack>
-          <LinearProgress variant="determinate" value={selectedCourse.progress} sx={{ height: 8, borderRadius: 99 }} />
+          <LinearProgress variant="determinate" value={progress} sx={{ height: 8, borderRadius: 99 }} />
         </Box>
       )}
 
@@ -69,8 +94,8 @@ export default function CourseDetailPage() {
         {selectedCourse.modules.map((module, index) => (
           <Box key={module.title} sx={{ p: 2.5, bgcolor: 'white', border: '1px solid #e9edf4', borderRadius: 2.5 }}>
             <Stack direction="row" spacing={1.5} alignItems="center">
-              <Avatar sx={{ width: 38, height: 38, bgcolor: index < 2 ? 'success.main' : 'primary.light', color: index < 2 ? 'white' : 'primary.main' }}>
-                {index < 2 ? <CheckCircle2 size={18} /> : index + 1}
+              <Avatar sx={{ width: 38, height: 38, bgcolor: 'primary.light', color: 'primary.main' }}>
+              {index + 1}
               </Avatar>
               <Box sx={{ flex: 1 }}>
                 <Typography fontWeight={800}>{module.title}</Typography>
@@ -83,6 +108,11 @@ export default function CourseDetailPage() {
           </Box>
         ))}
       </Box>
+      {!selectedCourse.modules.length && (
+        <Box sx={{ p: 4, textAlign: 'center', bgcolor: 'white', border: '1px solid #e9edf4' }}>
+          <Typography color="text.secondary">The course syllabus has not been added yet.</Typography>
+        </Box>
+      )}
     </Box>
   )
 }

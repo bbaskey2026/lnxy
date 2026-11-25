@@ -60,6 +60,14 @@ test('GET /api/health returns service status', async () => {
   assert.equal(response.body.data.persistence, 'json')
 })
 
+test('GET /api/assets/previews serves backend-hosted preview images', async () => {
+  const response = await supertest(app).get('/api/assets/previews/current-affairs-government.svg')
+
+  assert.equal(response.status, 200)
+  assert.match(response.headers['content-type'], /image\/svg\+xml/)
+  assert.match(response.body.toString('utf8'), /POLICY &amp; GOVERNANCE/)
+})
+
 test('student can register, receive an access token, and read profile', async () => {
   const registration = await supertest(app)
     .post('/api/auth/register')

@@ -42,7 +42,7 @@ export default function ExaminationDetailPage() {
       </Button>
       <Box sx={{ p: { xs: 2.5, md: 4 }, bgcolor: 'primary.main', color: 'white', borderRadius: 3, mb: 3 }}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems={{ sm: 'center' }}>
-          <Avatar sx={{ width: 72, height: 72, bgcolor: 'rgba(255,255,255,.15)', fontWeight: 900, fontSize: 18 }}>
+          <Avatar sx={{ width: 72, height: 72, bgcolor: 'rgba(255,255,255,.15)', fontWeight: 900, fontSize: 16 }}>
             {exam.shortName ?? exam.name.split(' ').map((part) => part[0]).join('').slice(0, 4).toUpperCase()}
           </Avatar>
           <Box sx={{ flex: 1 }}>
@@ -63,7 +63,7 @@ export default function ExaminationDetailPage() {
             {[
               { icon: Users, label: 'Eligibility', value: exam.eligibility },
               { icon: FileCheck2, label: 'Exam pattern', value: exam.pattern },
-              { icon: Clock3, label: 'Duration', value: exam.duration },
+              { icon: Clock3, label: 'Duration', value: exam.durationMinutes ? `${exam.durationMinutes} minutes` : 'Not specified' },
               { icon: Target, label: 'Negative marking', value: exam.negativeMarking },
             ].map(({ icon: Icon, label, value }) => (
               <Box key={label} sx={{ p: 2.5, bgcolor: 'white', border: '1px solid #e9edf4', borderRadius: 2.5 }}>
@@ -85,8 +85,6 @@ export default function ExaminationDetailPage() {
           <Divider sx={{ my: 1.5 }} />
           <Stack spacing={1.5}>
             <Stack direction="row" justifyContent="space-between"><Typography color="text.secondary">Total marks</Typography><Typography fontWeight={800}>{exam.totalMarks}</Typography></Stack>
-            <Stack direction="row" justifyContent="space-between"><Typography color="text.secondary">Mock tests</Typography><Typography fontWeight={800}>{exam.mockTests ?? 0}</Typography></Stack>
-            <Stack direction="row" justifyContent="space-between"><Typography color="text.secondary">Previous papers</Typography><Typography fontWeight={800}>{exam.papers ?? 0}</Typography></Stack>
           </Stack>
         </Box>
       </Box>

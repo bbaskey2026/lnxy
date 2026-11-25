@@ -10,4 +10,14 @@ export const courseService = {
     const response = await axiosClient.get(`/courses/${courseId}`)
     return response.data.data
   },
+
+  async listEnrolled() {
+    const response = await axiosClient.get('/courses/enrolled')
+    return response.data.data
+  },
+
+  async enroll(courseId) {
+    const response = await axiosClient.post(`/courses/${courseId}/enroll`)
+    return response.data.data
+  },
 }

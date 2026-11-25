@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
-  Alert,
   Avatar,
+  Alert,
   Box,
   Button,
   Chip,
+  CircularProgress,
   IconButton,
   LinearProgress,
   MenuItem,
@@ -25,9 +26,10 @@ import {
   Download,
   Play,
 } from 'lucide-react'
-import { config } from '../../config'
+import { useAppFeedback } from '../../hooks/useAppFeedback'
 import {
   saveLectureNote,
+  fetchLectures,
   selectLecture,
   toggleCompleted,
   toggleLectureBookmark,
@@ -38,11 +40,15 @@ export default function LecturePlayerPage() {
   const { lectureId } = useParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { showToast } = useAppFeedback()
   const videoRef = useRef(null)
-  const { items, selectedLectureId, notes } = useSelector((state) => state.lectures)
+  const { items, selectedLectureId, notes, loading, error } = useSelector((state) => state.lectures)
   const [speed, setSpeed] = useState('1')
   const [noteDraft, setNoteDraft] = useState('')
-  const [saved, setSaved] = useState(false)
+
+  useEffect(() => {
+    if (!items.length) dispatch(fetchLectures())
+  }, [dispatch, items.length])
 
   useEffect(() => {
     const matchingId = items.some((item) => item.id === lectureId) ? lectureId : selectedLectureId
@@ -63,7 +69,21 @@ export default function LecturePlayerPage() {
     video.currentTime = lecture.seconds
   }, [lecture?.id, lecture?.seconds])
 
-  if (!lecture) return null
+  if (!lecture) {
+    return (
+      <Box sx={{ p: { xs: 2, md: 3 }, maxWidth: 1000, mx: 'auto' }}>
+        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+        {loading ? (
+          <Box sx={{ py: 8, display: 'grid', placeItems: 'center' }}><CircularProgress /></Box>
+        ) : (
+          <Box sx={{ p: 5, textAlign: 'center', bgcolor: 'white', border: '1px solid #e9edf4' }}>
+            <Typography fontWeight={800}>No lectures available</Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>Published lectures will appear here.</Typography>
+          </Box>
+        )}
+      </Box>
+    )
+  }
 
   const completedCount = items.filter((item) => item.completed).length
   const courseProgress = Math.round((completedCount / items.length) * 100)
@@ -80,24 +100,14 @@ export default function LecturePlayerPage() {
   }
 
   const downloadAttachment = () => {
-    const content = [
-      lecture.title,
-      `Module: ${lecture.module}`,
-      `Duration: ${lecture.duration}`,
-      '',
-      'Lecture notes',
-      '1. Review the core concepts explained in this lesson.',
-      '2. Solve one practice set after completing the lecture.',
-      '3. Record doubts and revisit the marked topic.',
-    ].join('\n')
-    const url = URL.createObjectURL(new Blob([content], { type: 'text/plain;charset=utf-8' }))
+    if (!lecture.attachmentUrl) return
     const link = document.createElement('a')
-    link.href = url
-    link.download = `${lecture.title.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}-notes.txt`
+    link.href = lecture.attachmentUrl
+    link.target = '_blank'
+    link.rel = 'noreferrer'
     document.body.appendChild(link)
     link.click()
     link.remove()
-    URL.revokeObjectURL(url)
   }
 
   return (
@@ -106,12 +116,12 @@ export default function LecturePlayerPage() {
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: 'minmax(0, 1fr) 330px' }, gap: 2 }}>
         <Box>
           <Box sx={{ bgcolor: '#111827', borderRadius: 2.5, overflow: 'hidden', position: 'relative', aspectRatio: '16 / 9' }}>
-            {config.defaultLectureVideoSource ? (
+            {lecture.videoSource ? (
               <video
                 ref={videoRef}
                 controls
                 style={{ width: '100%', height: '100%', display: 'block' }}
-                src={config.defaultLectureVideoSource}
+                src={lecture.videoSource}
                 onPause={saveProgress}
                 onEnded={() => dispatch(toggleCompleted(lecture.id))}
                 onLoadedMetadata={(event) => {
@@ -127,9 +137,9 @@ export default function LecturePlayerPage() {
                   <Avatar sx={{ width: 66, height: 66, bgcolor: 'rgba(255,255,255,.12)', mx: 'auto', mb: 2 }}>
                     <Play size={28} fill="white" />
                   </Avatar>
-                  <Typography variant="h6">Configure a lecture video source</Typography>
+                  <Typography variant="h6">Video not available yet</Typography>
                   <Typography variant="body2" sx={{ opacity: 0.75, mt: 1, maxWidth: 480 }}>
-                    Set VITE_DEFAULT_LECTURE_VIDEO_SOURCE in .env to connect your video library or hosted media URL.
+                    A video link has not been added to this lecture.
                   </Typography>
                 </Box>
               </Box>
@@ -164,7 +174,7 @@ export default function LecturePlayerPage() {
               >
                 {lecture.bookmark ? <BookmarkCheck /> : <Bookmark />}
               </IconButton>
-              <IconButton aria-label="Download lecture attachment" onClick={downloadAttachment}>
+              <IconButton aria-label="Download lecture attachment" onClick={downloadAttachment} disabled={!lecture.attachmentUrl}>
                 <Download />
               </IconButton>
               <Button
@@ -179,16 +189,12 @@ export default function LecturePlayerPage() {
 
           <Box sx={{ mt: 3, p: 2.5, bgcolor: 'white', border: '1px solid #e9edf4', borderRadius: 2.5 }}>
             <Typography variant="h6">Personal notes</Typography>
-            {saved && <Alert severity="success" sx={{ mt: 1.5 }}>Note saved successfully.</Alert>}
             <TextField
               multiline
               minRows={4}
               fullWidth
               value={noteDraft}
-              onChange={(event) => {
-                setNoteDraft(event.target.value)
-                setSaved(false)
-              }}
+              onChange={(event) => setNoteDraft(event.target.value)}
               placeholder="Write a note for this lecture..."
               sx={{ mt: 1.5 }}
             />
@@ -197,7 +203,7 @@ export default function LecturePlayerPage() {
               sx={{ mt: 1.5 }}
               onClick={() => {
                 dispatch(saveLectureNote({ lectureId: lecture.id, note: noteDraft }))
-                setSaved(true)
+                showToast('Note saved successfully.')
               }}
             >
               Save note
@@ -235,7 +241,7 @@ export default function LecturePlayerPage() {
                 <Stack direction="row" spacing={1} alignItems="flex-start">
                   {item.completed
                     ? <CheckCircle2 size={18} color="#16a34a" />
-                    : <Avatar sx={{ width: 22, height: 22, bgcolor: '#edf0f5', color: 'text.secondary', fontSize: 11 }}>{items.indexOf(item) + 1}</Avatar>}
+                    : <Avatar sx={{ width: 22, height: 22, bgcolor: '#edf0f5', color: 'text.secondary', fontSize: 10 }}>{items.indexOf(item) + 1}</Avatar>}
                   <Box sx={{ flex: 1, minWidth: 0 }}>
                     <Typography variant="body2" fontWeight={800} noWrap>{item.title}</Typography>
                     <Typography variant="caption" color="text.secondary">{item.duration}</Typography>

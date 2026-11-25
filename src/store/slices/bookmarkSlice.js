@@ -22,8 +22,14 @@ const bookmarkSlice = createSlice({
         : [item, ...state.items]
       localStorage.setItem('exampro.bookmarks', JSON.stringify(state.items))
     },
+    pruneBookmarks(state, action) {
+      const { type, validIds } = action.payload
+      const valid = new Set(validIds)
+      state.items = state.items.filter((item) => item.type !== type || valid.has(item.id))
+      localStorage.setItem('exampro.bookmarks', JSON.stringify(state.items))
+    },
   },
 })
 
-export const { toggleBookmark } = bookmarkSlice.actions
+export const { toggleBookmark, pruneBookmarks } = bookmarkSlice.actions
 export default bookmarkSlice.reducer

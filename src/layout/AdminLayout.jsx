@@ -29,6 +29,7 @@ import {
   Users,
 } from 'lucide-react'
 import { logout } from '../store/slices/authSlice'
+import ConfirmationDialog from '../components/ConfirmationDialog'
 
 const drawerWidth = 248
 const navigation = [
@@ -43,12 +44,19 @@ const navigation = [
 export default function AdminLayout() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [collapsed, setCollapsed] = useState(false)
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const width = collapsed && !isMobile ? 88 : drawerWidth
+
+  const confirmLogout = () => {
+    dispatch(logout())
+    setLogoutDialogOpen(false)
+    navigate('/login', { replace: true })
+  }
 
   const drawer = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -70,15 +78,12 @@ export default function AdminLayout() {
             sx={{ mb: 0.5, minHeight: 48, borderRadius: 2, justifyContent: collapsed && !isMobile ? 'center' : 'flex-start', '&.Mui-selected': { bgcolor: 'primary.light', color: 'primary.main' } }}
           >
             <ListItemIcon sx={{ minWidth: collapsed && !isMobile ? 0 : 42, color: 'inherit' }}><Icon size={20} /></ListItemIcon>
-            {(!collapsed || isMobile) && <ListItemText primary={label} primaryTypographyProps={{ fontSize: 14, fontWeight: 700 }} />}
+            {(!collapsed || isMobile) && <ListItemText primary={label} primaryTypographyProps={{ fontSize: 13, fontWeight: 700 }} />}
           </ListItemButton>
         ))}
       </List>
       <Box sx={{ mt: 'auto', p: 2 }}>
-        <IconButton onClick={() => {
-          dispatch(logout())
-          navigate('/login', { replace: true })
-        }} aria-label="Sign out"><LogOut size={19} /></IconButton>
+        <IconButton onClick={() => setLogoutDialogOpen(true)} aria-label="Sign out"><LogOut size={19} /></IconButton>
       </Box>
     </Box>
   )
@@ -99,6 +104,16 @@ export default function AdminLayout() {
         <Toolbar sx={{ minHeight: '72px !important' }} />
         <Outlet />
       </Box>
+      <ConfirmationDialog
+        open={logoutDialogOpen}
+        title="Sign out?"
+        description={<Typography color="text.secondary">You'll need to sign in again to continue your preparation.</Typography>}
+        cancelLabel="Stay signed in"
+        confirmLabel="Sign out"
+        confirmColor="error"
+        onCancel={() => setLogoutDialogOpen(false)}
+        onConfirm={confirmLogout}
+      />
     </Box>
   )
 }

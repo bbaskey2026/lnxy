@@ -1,8 +1,8 @@
-import { useState } from 'react'
-import { Alert, Box, Button, Container, TextField, Typography } from '@mui/material'
+import { Box, Button, Container, TextField, Typography } from '@mui/material'
+import { useAppFeedback } from '../../hooks/useAppFeedback'
 
 export default function ContactPage() {
-  const [submitted, setSubmitted] = useState(false)
+  const { showToast } = useAppFeedback()
 
   return (
     <Container maxWidth="sm" sx={{ py: { xs: 5, md: 8 } }}>
@@ -10,12 +10,11 @@ export default function ContactPage() {
       <Typography color="text.secondary" sx={{ mt: 1, mb: 3 }}>
         Send support, course or examination enquiries to the platform team.
       </Typography>
-      {submitted && <Alert severity="success" sx={{ mb: 2 }}>Your message has been recorded.</Alert>}
       <Box
         component="form"
         onSubmit={(event) => {
           event.preventDefault()
-          setSubmitted(true)
+          showToast('Your message has been recorded.')
         }}
         sx={{ display: 'grid', gap: 2 }}
       >

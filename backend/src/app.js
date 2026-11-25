@@ -2,6 +2,7 @@ import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
+import { fileURLToPath } from 'node:url'
 import pinoHttp from 'pino-http'
 import pino from 'pino'
 import { env } from './config/env.config.js'
@@ -15,7 +16,13 @@ import { notFound } from './middleware/notFound.js'
 export function createApp(router, logger = pino({ level: env.NODE_ENV === 'development' ? 'debug' : 'info' })) {
   const app = express()
   app.disable('x-powered-by')
-  app.use(helmet())
+  app.use(helmet({
+    contentSecurityPolicy: {
+      directives: {
+        imgSrc: ["'self'", 'data:', new URL(env.APP_URL).origin],
+      },
+    },
+  }))
   app.use(cors(createCorsOptions()))
   app.use(createRateLimiter())
   app.use(cookieParser())
@@ -23,6 +30,12 @@ export function createApp(router, logger = pino({ level: env.NODE_ENV === 'devel
   app.use(express.urlencoded({ extended: false, limit: appConfig.jsonLimit }))
   app.use(requestId)
   app.use(pinoHttp({ logger, genReqId: (req) => req.requestId }))
+  app.use(
+    '/api/assets/previews',
+    express.static(fileURLToPath(new URL('../public/previews/', import.meta.url)), {
+      maxAge: env.NODE_ENV === 'production' ? '1d' : 0,
+    }),
+  )
   app.use('/api', router)
   app.use(notFound)
   app.use(errorHandler(logger))

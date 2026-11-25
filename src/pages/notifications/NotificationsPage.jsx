@@ -1,20 +1,25 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Box, Button, Chip, Stack, Typography } from '@mui/material'
+import { Alert, Box, Button, Chip, CircularProgress, Stack, Typography } from '@mui/material'
 import { Bell, CheckCheck } from 'lucide-react'
-import { markAllRead, markRead } from '../../store/slices/notificationSlice'
+import { fetchNotifications, markAllRead, markRead } from '../../store/slices/notificationSlice'
 
 export default function NotificationsPage() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { items, unreadCount } = useSelector((state) => state.notifications)
+  const { items, loading, error } = useSelector((state) => state.notifications)
+  const unreadCount = items.filter((item) => !item.read).length
   const [filter, setFilter] = useState('All')
   const categories = ['All', ...new Set(items.map((item) => item.category))]
   const filtered = useMemo(
     () => filter === 'All' ? items : items.filter((item) => item.category === filter),
     [items, filter],
   )
+
+  useEffect(() => {
+    dispatch(fetchNotifications())
+  }, [dispatch])
 
   return (
     <Box sx={{ p: { xs: 2, md: 3 }, maxWidth: 900, mx: 'auto' }}>
@@ -27,13 +32,16 @@ export default function NotificationsPage() {
           Mark all read
         </Button>
       </Stack>
+      {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Stack direction="row" flexWrap="wrap" gap={1} sx={{ mb: 2 }}>
         {categories.map((category) => (
           <Chip key={category} label={category} clickable color={filter === category ? 'primary' : 'default'} variant={filter === category ? 'filled' : 'outlined'} onClick={() => setFilter(category)} />
         ))}
       </Stack>
       <Box sx={{ bgcolor: 'white', border: '1px solid #e9edf4', borderRadius: 2.5, overflow: 'hidden' }}>
-        {filtered.map((item, index) => (
+        {loading ? (
+          <Box sx={{ py: 6, display: 'grid', placeItems: 'center' }}><CircularProgress /></Box>
+        ) : error ? null : filtered.length ? filtered.map((item, index) => (
           <Box
             key={item.id}
             sx={{
@@ -45,7 +53,7 @@ export default function NotificationsPage() {
             }}
             onClick={() => {
               dispatch(markRead(item.id))
-              navigate(item.route)
+              if (item.route) navigate(item.route)
             }}
           >
             <Stack direction="row" spacing={1.5} alignItems="flex-start">
@@ -67,7 +75,12 @@ export default function NotificationsPage() {
               </Box>
             </Stack>
           </Box>
-        ))}
+        )) : (
+          <Box sx={{ p: 5, textAlign: 'center' }}>
+            <Typography fontWeight={800}>No notifications</Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>You have no notifications yet.</Typography>
+          </Box>
+        )}
       </Box>
     </Box>
   )

@@ -17,6 +17,8 @@ import { createBookmarkRoutes } from './bookmark.routes.js'
 import { createNoteRoutes } from './note.routes.js'
 import { createAnalyticsRoutes } from './analytics.routes.js'
 import { createNotificationRoutes } from './notification.routes.js'
+import { JsonCollectionController } from '../controllers/JsonCollectionController.js'
+import { createJsonCollectionRoutes } from './json-collection.routes.js'
 
 export function createApiRoutes(dependencies) {
   const router = Router()
@@ -43,5 +45,7 @@ export function createApiRoutes(dependencies) {
   router.use('/notes', createNoteRoutes(dependencies.noteController, dependencies.authenticateMiddleware))
   router.use('/analytics', createAnalyticsRoutes(dependencies.analyticsController, dependencies.authenticateMiddleware))
   router.use('/notifications', createNotificationRoutes(dependencies.notificationController, dependencies.authenticateMiddleware))
+  router.use('/current-affairs', createJsonCollectionRoutes(new JsonCollectionController(dependencies.database, 'current-affairs')))
+  router.use('/previous-papers', createJsonCollectionRoutes(new JsonCollectionController(dependencies.database, 'previous-papers')))
   return router
 }

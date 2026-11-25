@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -6,6 +6,7 @@ import {
   Box,
   Button,
   Chip,
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
@@ -17,7 +18,12 @@ import {
   Typography,
 } from '@mui/material'
 import { CheckCircle2, ChevronLeft, ChevronRight, XCircle } from 'lucide-react'
-import { answerPractice, setPracticeIndex, setPracticeMode } from '../../store/slices/practiceSlice'
+import {
+  answerPractice,
+  fetchPracticeQuestions,
+  setPracticeIndex,
+  setPracticeMode,
+} from '../../store/slices/practiceSlice'
 
 export default function PracticePage() {
   const dispatch = useDispatch()
@@ -27,6 +33,10 @@ export default function PracticePage() {
   const [subject, setSubject] = useState('All')
   const [difficulty, setDifficulty] = useState('All')
   const [type, setType] = useState('All')
+
+  useEffect(() => {
+    dispatch(fetchPracticeQuestions())
+  }, [dispatch])
 
   const filtered = useMemo(() => practice.questions.filter((question) =>
     (examination === 'All' || question.examination === examination)
@@ -42,6 +52,10 @@ export default function PracticePage() {
   const accuracy = practice.history.length
     ? Math.round((historyCorrect / practice.history.length) * 100)
     : 0
+  const examinationOptions = [...new Set(practice.questions.map((item) => item.examination).filter(Boolean))]
+  const subjectOptions = [...new Set(practice.questions.map((item) => item.subject).filter(Boolean))]
+  const difficultyOptions = [...new Set(practice.questions.map((item) => item.difficulty).filter(Boolean))]
+  const typeOptions = [...new Set(practice.questions.map((item) => item.type).filter(Boolean))]
 
   const resetFilters = () => {
     setExamination('All')
@@ -61,6 +75,7 @@ export default function PracticePage() {
           <Button variant="outlined" onClick={() => navigate('/student/previous-papers')}>Previous papers</Button>
         </Stack>
       </Stack>
+      {practice.error && <Alert severity="error" sx={{ mb: 2 }}>{practice.error}</Alert>}
 
       <Tabs
         value={practice.mode}
@@ -73,10 +88,10 @@ export default function PracticePage() {
 
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' }, gap: 1.5, mb: 2 }}>
         {[
-          ['examination', 'Examination', ['All', ...new Set(practice.questions.map((item) => item.examination))], examination],
-          ['subject', 'Subject', ['All', ...new Set(practice.questions.map((item) => item.subject))], subject],
-          ['difficulty', 'Difficulty', ['All', 'Easy', 'Medium', 'Hard'], difficulty],
-          ['type', 'Question type', ['All', 'MCQ', 'True/False'], type],
+          ['examination', 'Examination', ['All', ...examinationOptions], examination],
+          ['subject', 'Subject', ['All', ...subjectOptions], subject],
+          ['difficulty', 'Difficulty', ['All', ...difficultyOptions], difficulty],
+          ['type', 'Question type', ['All', ...typeOptions], type],
         ].map(([key, label, values, value]) => (
           <FormControl key={key} size="small">
             <InputLabel>{label}</InputLabel>
@@ -91,7 +106,7 @@ export default function PracticePage() {
                 if (key === 'type') setType(event.target.value)
               }}
             >
-              {values.map((item) => <MenuItem key={item} value={item}>{item === 'All' ? `All ${label.toLower}` : item}</MenuItem>)}
+              {values.map((item) => <MenuItem key={item} value={item}>{item === 'All' ? `All ${label.toLowerCase()}` : item}</MenuItem>)}
             </Select>
           </FormControl>
         ))}
@@ -106,9 +121,12 @@ export default function PracticePage() {
         )}
       </Stack>
 
-      {!question ? (
+      {practice.loading ? (
+        <Box sx={{ py: 8, display: 'grid', placeItems: 'center' }}><CircularProgress /></Box>
+      ) : practice.error ? null : !question ? (
         <Box sx={{ p: 5, textAlign: 'center', bgcolor: 'white', border: '1px solid #e9edf4', borderRadius: 2.5 }}>
-          <Typography fontWeight={800}>No matching questions</Typography>
+          <Typography fontWeight={800}>{practice.questions.length ? 'No matching questions' : 'No practice questions available'}</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>Questions will appear here when they are published.</Typography>
         </Box>
       ) : (
         <Box sx={{ bgcolor: 'white', border: '1px solid #e9edf4', borderRadius: 2.5, p: { xs: 2, md: 3 } }}>

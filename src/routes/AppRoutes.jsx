@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { CircularProgress, Box } from '@mui/material'
 import { ProtectedRoute } from './ProtectedRoute'
 
@@ -25,6 +25,7 @@ const BookmarksPage = lazy(() => import('../pages/bookmarks/BookmarksPage'))
 const NotesPage = lazy(() => import('../pages/notes/NotesPage'))
 const AnalyticsPage = lazy(() => import('../pages/analytics/AnalyticsPage'))
 const NotificationsPage = lazy(() => import('../pages/notifications/NotificationsPage'))
+const HomePage = lazy(() => import('../pages/public/HomePage'))
 const AboutPage = lazy(() => import('../pages/public/AboutPage'))
 const ContactPage = lazy(() => import('../pages/public/ContactPage'))
 const AdminLayout = lazy(() => import('../layout/AdminLayout'))
@@ -46,10 +47,13 @@ export function AppRoutes() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
-        <Route path="/exams" element={<ExaminationDiscoveryPage />} />
-        <Route path="/exams/:examId" element={<ExaminationDetailPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/" element={<AppLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="exams" element={<ExaminationDiscoveryPage />} />
+          <Route path="exams/:examId" element={<ExaminationDetailPage />} />
+          <Route path="about" element={<AboutPage />} />
+          <Route path="contact" element={<ContactPage />} />
+        </Route>
         <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
           <Route element={<AdminLayout />}>
             <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
@@ -62,7 +66,6 @@ export function AppRoutes() {
         </Route>
         <Route element={<ProtectedRoute allowedRoles={['student', 'instructor', 'admin']} />}>
           <Route element={<AppLayout />}>
-            <Route index element={<Navigate to="/student/dashboard" replace />} />
             <Route path="/student/dashboard" element={<StudentDashboardPage />} />
             <Route path="/student/profile" element={<ProfilePage />} />
             <Route path="/student/courses" element={<CourseListPage />} />

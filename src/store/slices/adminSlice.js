@@ -1,45 +1,91 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { adminService } from '../../services/adminService'
+import { platformService } from '../../services/platformService'
+
+export const fetchAdminOverview = createAsyncThunk(
+  'admin/fetchOverview',
+  () => adminService.getOverview(),
+)
+
+export const fetchAdminSection = createAsyncThunk(
+  'admin/fetchSection',
+  async (section) => ({ section, records: await adminService.listSection(section) }),
+)
+
+export const createAdminExam = createAsyncThunk(
+  'admin/createExam',
+  (exam) => platformService.createExam(exam),
+)
+
+export const updateExaminationStatus = createAsyncThunk(
+  'admin/updateExaminationStatus',
+  ({ id, status }) => platformService.updateExam(id, { isActive: status === 'Active' }),
+)
+
+export const updateUserStatus = createAsyncThunk(
+  'admin/updateUserStatus',
+  ({ id, status }) => platformService.updateUser(id, { status: status.toLowerCase() }),
+)
 
 const adminSlice = createSlice({
   name: 'admin',
   initialState: {
-    examinations: [
-      { id: 'ssc-cgl', name: 'SSC CGL', category: 'SSC Examinations', status: 'Active', subjects: 4, tests: 24 },
-      { id: 'osssc-ri', name: 'OSSSC RI', category: 'Odisha Government', status: 'Active', subjects: 4, tests: 16 },
-      { id: 'ibps-po', name: 'IBPS PO', category: 'Banking', status: 'Draft', subjects: 4, tests: 30 },
-    ],
-    courses: [
-      { id: 'ssc-cgl-foundation', title: 'SSC CGL Complete Foundation', instructor: 'Rohit Sharma', status: 'Published', students: 18420 },
-      { id: 'odisha-ri-aris', title: 'OSSSC RI, ARI & AMIN Masterclass', instructor: 'Priya Das', status: 'Published', students: 9650 },
-      { id: 'banking-achievers', title: 'Banking Achievers Program', instructor: 'Ananya Roy', status: 'Draft', students: 23100 },
-    ],
-    users: [
-      { id: 'u1', name: 'Aarav Sharma', email: 'aarav@example.com', role: 'student', status: 'Active' },
-      { id: 'u2', name: 'Rohit Sharma', email: 'rohit@exampro.com', role: 'instructor', status: 'Active' },
-      { id: 'u3', name: 'Priya Das', email: 'priya@exampro.com', role: 'instructor', status: 'Active' },
-      { id: 'u4', name: 'Neha Admin', email: 'admin@exampro.com', role: 'admin', status: 'Active' },
-    ],
+    examinations: [],
+    courses: [],
+    materials: [],
+    users: [],
+    loading: false,
+    sectionLoading: false,
+    error: null,
   },
-  reducers: {
-    addExamination(state, action) {
-      state.examinations.unshift({
-        id: `exam-${Date.now()}`,
-        status: 'Draft',
-        subjects: 0,
-        tests: 0,
-        ...action.payload,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAdminOverview.pending, (state) => {
+        state.loading = true
+        state.error = null
       })
-    },
-    updateExaminationStatus(state, action) {
-      const examination = state.examinations.find((item) => item.id === action.payload.id)
-      if (examination) examination.status = action.payload.status
-    },
-    updateUserStatus(state, action) {
-      const user = state.users.find((item) => item.id === action.payload.id)
-      if (user) user.status = action.payload.status
-    },
+      .addCase(fetchAdminOverview.fulfilled, (state, action) => {
+        state.loading = false
+        Object.assign(state, action.payload)
+      })
+      .addCase(fetchAdminOverview.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message
+      })
+      .addCase(fetchAdminSection.pending, (state) => {
+        state.sectionLoading = true
+        state.error = null
+      })
+      .addCase(fetchAdminSection.fulfilled, (state, action) => {
+        state.sectionLoading = false
+        state[action.payload.section] = action.payload.records
+      })
+      .addCase(fetchAdminSection.rejected, (state, action) => {
+        state.sectionLoading = false
+        state.error = action.error.message
+      })
+      .addCase(createAdminExam.fulfilled, (state, action) => {
+        state.examinations.unshift(action.payload)
+      })
+      .addCase(createAdminExam.rejected, (state, action) => {
+        state.error = action.error.message
+      })
+      .addCase(updateExaminationStatus.fulfilled, (state, action) => {
+        const index = state.examinations.findIndex((exam) => exam.id === action.payload.id)
+        if (index !== -1) state.examinations[index] = action.payload
+      })
+      .addCase(updateExaminationStatus.rejected, (state, action) => {
+        state.error = action.error.message
+      })
+      .addCase(updateUserStatus.fulfilled, (state, action) => {
+        const index = state.users.findIndex((user) => user.id === action.payload.id)
+        if (index !== -1) state.users[index] = action.payload
+      })
+      .addCase(updateUserStatus.rejected, (state, action) => {
+        state.error = action.error.message
+      })
   },
 })
 
-export const { addExamination, updateExaminationStatus, updateUserStatus } = adminSlice.actions
 export default adminSlice.reducer

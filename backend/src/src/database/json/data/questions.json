@@ -1,0 +1,170 @@
+[
+  {
+    "id": "00000000-0000-4000-8000-000000000001",
+    "examId": "59bdc52f-ec76-4b24-b83c-ac5f79f5166f",
+    "subject": "Quantitative Aptitude",
+    "text": "A and B together can complete a work in 12 days. A alone can complete it in 20 days. In how many days can B alone complete it?",
+    "options": [
+      "25 days",
+      "30 days",
+      "35 days",
+      "40 days"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Let B take x days. 1/20 + 1/x = 1/12. Solving gives 1/x = 1/30, so B takes 30 days.",
+    "type": "MCQ",
+    "difficulty": "Medium",
+    "solutionSteps": [],
+    "isPreviousYear": false,
+    "year": null,
+    "createdAt": "2026-11-25T12:38:58.095Z",
+    "updatedAt": "2026-11-25T12:38:58.095Z"
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000002",
+    "examId": "59bdc52f-ec76-4b24-b83c-ac5f79f5166f",
+    "subject": "Reasoning",
+    "text": "Find the odd one out.",
+    "options": [
+      "Square",
+      "Rectangle",
+      "Triangle",
+      "Cube"
+    ],
+    "correctOptionIndex": 3,
+    "explanation": "Square, rectangle and triangle are two-dimensional figures, while cube is three-dimensional.",
+    "type": "MCQ",
+    "difficulty": "Medium",
+    "solutionSteps": [],
+    "isPreviousYear": false,
+    "year": null,
+    "createdAt": "2026-11-25T12:38:58.095Z",
+    "updatedAt": "2026-11-25T12:38:58.095Z"
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000003",
+    "examId": "59bdc52f-ec76-4b24-b83c-ac5f79f5166f",
+    "subject": "English",
+    "text": "Choose the word closest in meaning to \"Meticulous\".",
+    "options": [
+      "Careless",
+      "Precise",
+      "Rapid",
+      "Ordinary"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Meticulous means showing great attention to detail, making \"precise\" the closest meaning.",
+    "type": "MCQ",
+    "difficulty": "Medium",
+    "solutionSteps": [],
+    "isPreviousYear": false,
+    "year": null,
+    "createdAt": "2026-11-25T12:38:58.095Z",
+    "updatedAt": "2026-11-25T12:38:58.095Z"
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000004",
+    "examId": "59bdc52f-ec76-4b24-b83c-ac5f79f5166f",
+    "subject": "General Studies",
+    "text": "Which Article of the Indian Constitution deals with the abolition of untouchability?",
+    "options": [
+      "Article 14",
+      "Article 17",
+      "Article 21",
+      "Article 32"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Article 17 abolishes untouchability and forbids its practice in any form.",
+    "type": "MCQ",
+    "difficulty": "Medium",
+    "solutionSteps": [],
+    "isPreviousYear": false,
+    "year": null,
+    "createdAt": "2026-11-25T12:38:58.095Z",
+    "updatedAt": "2026-11-25T12:38:58.095Z"
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000005",
+    "examId": "59bdc52f-ec76-4b24-b83c-ac5f79f5166f",
+    "subject": "Quantitative Aptitude",
+    "text": "A shopkeeper marks an article 25% above cost price and allows a 10% discount. What is the profit percentage?",
+    "options": [
+      "12.5%",
+      "15%",
+      "17.5%",
+      "20%"
+    ],
+    "correctOptionIndex": 0,
+    "explanation": "Let cost be 100. Marked price is 125 and selling price is 112.5, resulting in 12.5% profit.",
+    "type": "MCQ",
+    "difficulty": "Medium",
+    "solutionSteps": [],
+    "isPreviousYear": false,
+    "year": null,
+    "createdAt": "2026-11-25T12:38:58.095Z",
+    "updatedAt": "2026-11-25T12:38:58.095Z"
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000006",
+    "examId": "59bdc52f-ec76-4b24-b83c-ac5f79f5166f",
+    "subject": "Reasoning",
+    "text": "If FLOWER is written as 612753, then what could be the code for WOLF?",
+    "options": [
+      "3526",
+      "3625",
+      "2563",
+      "6253"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "This uses the letter-position mapping established by the given sample code; the resulting sequence for WOLF is 2563.",
+    "type": "MCQ",
+    "difficulty": "Medium",
+    "solutionSteps": [],
+    "isPreviousYear": false,
+    "year": null,
+    "createdAt": "2026-11-25T12:38:58.095Z",
+    "updatedAt": "2026-11-25T12:38:58.095Z"
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000007",
+    "examId": "c161acc8-07a2-4678-9ee9-ba7ee1e98495",
+    "subject": "Arithmetic",
+    "text": "The average of five consecutive even numbers is 28. What is the largest number?",
+    "options": [
+      "30",
+      "32",
+      "34",
+      "36"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "The middle number is 28. The numbers are 24, 26, 28, 30 and 32, so the largest is 32.",
+    "type": "MCQ",
+    "difficulty": "Medium",
+    "solutionSteps": [],
+    "isPreviousYear": false,
+    "year": null,
+    "createdAt": "2026-11-25T12:38:58.095Z",
+    "updatedAt": "2026-11-25T12:38:58.095Z"
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000008",
+    "examId": "c161acc8-07a2-4678-9ee9-ba7ee1e98495",
+    "subject": "Arithmetic",
+    "text": "A sum doubles itself in 10 years at simple interest. What is the rate?",
+    "options": [
+      "8%",
+      "10%",
+      "12%",
+      "15%"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "For doubling, interest equals principal. R = 100/P years = 100/10 = 10%.",
+    "type": "MCQ",
+    "difficulty": "Medium",
+    "solutionSteps": [],
+    "isPreviousYear": false,
+    "year": null,
+    "createdAt": "2026-11-25T12:38:58.095Z",
+    "updatedAt": "2026-11-25T12:38:58.095Z"
+  }
+]

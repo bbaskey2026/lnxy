@@ -7,7 +7,8 @@
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
     "test": "node --test",
-    "seed": "node scripts/seed.js"
+    "seed": "node scripts/seed.js",
+    "seed:mock-tests": "node scripts/seed-mock-tests.js"
   },
   "dependencies": {
     "argon2": "0.44.0",

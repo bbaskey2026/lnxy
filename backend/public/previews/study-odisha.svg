@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#064e59"/><stop offset="1" stop-color="#0f766e"/></linearGradient></defs>
+  <rect width="640" height="360" fill="url(#bg)"/><circle cx="470" cy="103" r="75" fill="#fde68a" opacity=".85"/>
+  <path d="M355 269h220M378 246h174m-154-21h133m-108-23h83m-63-22h44" stroke="#f8fafc" stroke-width="9"/>
+  <path d="m390 180 72-93 72 93m-127 0h110m-91 0v65m36-65v65m36-65v65" fill="none" stroke="#fdba74" stroke-width="10" stroke-linejoin="miter"/>
+  <path d="M0 272c85-33 155 32 240 0s155 32 240 0 110 0 160 0v88H0Z" fill="#0b3e50" opacity=".55"/>
+  <text x="40" y="52" fill="#a7f3d0" font-family="Arial,sans-serif" font-size="15" font-weight="700" letter-spacing="3">STUDY MATERIAL</text>
+  <text x="40" y="326" fill="#fff" font-family="Arial,sans-serif" font-size="24" font-weight="700">ODISHA GENERAL KNOWLEDGE</text>
+</svg>

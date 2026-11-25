@@ -25,6 +25,7 @@ import { ExamService } from './services/ExamService.js'
 import { SubjectService } from './services/SubjectService.js'
 import { TopicService } from './services/TopicService.js'
 import { CourseService } from './services/CourseService.js'
+import { CourseEnrollmentService } from './services/CourseEnrollmentService.js'
 import { LectureService } from './services/LectureService.js'
 import { StudyMaterialService } from './services/StudyMaterialService.js'
 import { QuestionService } from './services/QuestionService.js'
@@ -81,12 +82,12 @@ const courseService = new CourseService(courseRepository)
 const lectureService = new LectureService(lectureRepository)
 const studyMaterialService = new StudyMaterialService(studyMaterialRepository)
 const questionService = new QuestionService(questionRepository)
-const mockTestService = new MockTestService(mockTestRepository)
+const mockTestService = new MockTestService(mockTestRepository, questionRepository, examRepository)
 const attemptService = new AttemptService(attemptRepository, mockTestRepository, questionRepository)
 const resultService = new ResultService(resultRepository)
 const bookmarkService = new BookmarkService(bookmarkRepository)
 const noteService = new NoteService(noteRepository)
-const analyticsService = new AnalyticsService(attemptRepository, resultRepository, lectureRepository)
+const analyticsService = new AnalyticsService(attemptRepository, resultRepository)
 const notificationService = new NotificationService(database)
 
 const authController = new AuthController(authService)
@@ -94,7 +95,8 @@ const userController = new UserController(userService)
 const examController = new ExamController(examService)
 const subjectController = new SubjectController(subjectService)
 const topicController = new TopicController(topicService)
-const courseController = new CourseController(courseService)
+const courseEnrollmentService = new CourseEnrollmentService(courseRepository, database)
+const courseController = new CourseController(courseService, courseEnrollmentService)
 const lectureController = new LectureController(lectureService)
 const studyMaterialController = new StudyMaterialController(studyMaterialService)
 const questionController = new QuestionController(questionService)
@@ -107,6 +109,7 @@ const analyticsController = new AnalyticsController(analyticsService)
 const notificationController = new NotificationController(notificationService)
 
 const router = createApiRoutes({
+  database,
   authController,
   authenticateMiddleware,
   userController,

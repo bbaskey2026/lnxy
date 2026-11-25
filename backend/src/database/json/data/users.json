@@ -1,21 +1,32 @@
 [
   {
-    "id": "9c97ba03-d191-45c7-af3e-d86597c8be9e",
+    "id": "5d5f0e62-ad5c-40d1-bd1b-39ae3172fe24",
     "name": "Admin Test",
     "email": "admin@exampro.com",
-    "passwordHash": "$argon2id$v=19$m=19456,t=2,p=1$EMi/wfUC/ukdKOPkFe+Fkw$KY4A/e+UscqrtPv/LgvWG9E2vZpVJVUqjjikasQVR1Y",
+    "passwordHash": "$argon2id$v=19$m=19456,t=2,p=1$x3X5Z2utlwg+EhLAEvJSfg$yNCUhaXURJ5zZfnN4TnVL6fF1gBvbUf5hQ/nI82nqUs",
     "role": "admin",
     "status": "active",
-    "createdAt": "2026-11-24T19:23:22.042Z",
-    "updatedAt": "2026-11-24T19:23:22.051Z"
+    "createdAt": "2026-11-25T13:44:17.131Z",
+    "updatedAt": "2026-11-25T13:44:17.139Z"
   },
   {
-    "id": "78491b85-cc5d-4aec-a0e4-aafb687de550",
-    "createdAt": "2026-11-24T19:23:22.406Z",
-    "updatedAt": "2026-11-24T19:23:22.406Z",
+    "id": "eab39190-82ef-46f7-8acd-11a0d0209468",
+    "createdAt": "2026-11-25T13:44:17.816Z",
+    "updatedAt": "2026-11-25T13:44:17.816Z",
     "name": "Test Student",
     "email": "student@example.com",
-    "passwordHash": "$argon2id$v=19$m=65536,t=3,p=4$cUXn9v2k7srENOy5YVIpJg$TlZ8Ptat0AMpvDZ1fywR3ys0gDPOQihQdjnTtzUkYnA",
+    "passwordHash": "$argon2id$v=19$m=65536,t=3,p=4$6E+3QwhiRNck9geFsgnU3g$CiMV0UzO2L+6zrHne0K6qLqJfcT+v7gMh7CEgiUXM/4",
+    "role": "student",
+    "status": "active",
+    "targetExam": null
+  },
+  {
+    "id": "0ad2df56-3d23-4487-be7d-52acd42562f5",
+    "createdAt": "2026-11-25T14:16:08.607Z",
+    "updatedAt": "2026-11-25T14:16:08.607Z",
+    "name": "BHIMA BASKEY",
+    "email": "bhimabaskey26@gmail.com",
+    "passwordHash": "$argon2id$v=19$m=65536,t=3,p=4$Xv4k2nu4T+Bb0hRYHJGspA$LK9RTIWg3s7jWFCfHkoDUgjFvFIHQRB35e0xWwc4BqI",
     "role": "student",
     "status": "active",
     "targetExam": null

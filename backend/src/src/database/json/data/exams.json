@@ -1,0 +1,46 @@
+[
+  {
+    "id": "59bdc52f-ec76-4b24-b83c-ac5f79f5166f",
+    "name": "SSC CGL",
+    "slug": "ssc-cgl",
+    "category": "SSC Examinations",
+    "description": "Graduate-level positions across central government departments.",
+    "subjects": [
+      "Quantitative Aptitude",
+      "Reasoning",
+      "English",
+      "General Studies"
+    ],
+    "durationMinutes": 60,
+    "negativeMarking": 0.5,
+    "eligibility": "",
+    "pattern": "",
+    "totalMarks": 0,
+    "isActive": true,
+    "status": "active",
+    "createdAt": "2026-11-25T12:38:58.072Z",
+    "updatedAt": "2026-11-25T12:38:58.072Z"
+  },
+  {
+    "id": "c161acc8-07a2-4678-9ee9-ba7ee1e98495",
+    "name": "OSSSC RI",
+    "slug": "osssc-ri",
+    "category": "Odisha Government",
+    "description": "Revenue Inspector recruitment examination.",
+    "subjects": [
+      "Arithmetic",
+      "Mental Ability",
+      "Odisha GK",
+      "General Knowledge"
+    ],
+    "durationMinutes": 120,
+    "negativeMarking": 0.25,
+    "eligibility": "",
+    "pattern": "",
+    "totalMarks": 0,
+    "isActive": true,
+    "status": "active",
+    "createdAt": "2026-11-25T12:38:58.095Z",
+    "updatedAt": "2026-11-25T12:38:58.095Z"
+  }
+]

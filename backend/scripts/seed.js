@@ -2,6 +2,7 @@ import crypto from 'node:crypto'
 import { PasswordHasher } from '../src/infrastructure/security/PasswordHasher.js'
 import { JsonDatabase } from '../src/database/json/JsonDatabase.js'
 import { env } from '../src/config/env.config.js'
+import { createMockTestFixtures } from './mockTestFixtures.js'
 
 const database = new JsonDatabase(env.JSON_DATA_DIRECTORY)
 const hasher = new PasswordHasher()
@@ -25,6 +26,41 @@ for (const user of users) {
     updatedAt: new Date().toISOString(),
   })
 }
+
+const exams = [
+  {
+    id: crypto.randomUUID(),
+    name: 'SSC CGL',
+    slug: 'ssc-cgl',
+    category: 'SSC Examinations',
+    description: 'Graduate-level positions across central government departments.',
+    eligibility: 'Bachelor degree from a recognized university.',
+    pattern: 'Tier I and Tier II objective examinations.',
+    totalMarks: 200,
+    durationMinutes: 60,
+    negativeMarking: 0.5,
+    subjects: ['Quantitative Aptitude', 'Reasoning', 'English', 'General Studies'],
+    isActive: true,
+    status: 'active',
+  },
+  {
+    id: crypto.randomUUID(),
+    name: 'OSSSC RI',
+    slug: 'osssc-ri',
+    category: 'Odisha Government',
+    description: 'Revenue Inspector recruitment examination.',
+    eligibility: '12th pass and Odisha residence requirements.',
+    pattern: 'Preliminary and written stages.',
+    totalMarks: 100,
+    durationMinutes: 120,
+    negativeMarking: 0.25,
+    subjects: ['Arithmetic', 'Mental Ability', 'Odisha GK', 'General Knowledge'],
+    isActive: true,
+    status: 'active',
+  },
+]
+
+const { questions, mockTests } = createMockTestFixtures(exams)
 
 await database.write('users', seededUsers)
 await database.write('refresh-tokens', [])
@@ -74,8 +110,8 @@ await database.write('courses', [
 ])
 await database.write('lectures', [])
 await database.write('materials', [])
-await database.write('questions', [])
-await database.write('mock-tests', [])
+await database.write('questions', questions)
+await database.write('mock-tests', mockTests)
 await database.write('attempts', [])
 await database.write('results', [])
 await database.write('bookmarks', [])
@@ -84,35 +120,6 @@ await database.write('notifications', [])
 await database.write('user-notifications', [])
 await database.write('current-affairs', [])
 await database.write('previous-papers', [])
-await database.write('exams', [
-  {
-    id: crypto.randomUUID(),
-    name: 'SSC CGL',
-    slug: 'ssc-cgl',
-    category: 'SSC Examinations',
-    description: 'Graduate-level positions across central government departments.',
-    eligibility: 'Bachelor degree from a recognized university.',
-    pattern: 'Tier I and Tier II objective examinations.',
-    totalMarks: 200,
-    durationMinutes: 60,
-    negativeMarking: 0.5,
-    subjects: ['Quantitative Aptitude', 'Reasoning', 'English', 'General Studies'],
-    status: 'active',
-  },
-  {
-    id: crypto.randomUUID(),
-    name: 'OSSSC RI',
-    slug: 'osssc-ri',
-    category: 'Odisha Government',
-    description: 'Revenue Inspector recruitment examination.',
-    eligibility: '12th pass and Odisha residence requirements.',
-    pattern: 'Preliminary and written stages.',
-    totalMarks: 100,
-    durationMinutes: 120,
-    negativeMarking: 0.25,
-    subjects: ['Arithmetic', 'Mental Ability', 'Odisha GK', 'General Knowledge'],
-    status: 'active',
-  },
-])
+await database.write('exams', exams)
 
 console.log('JSON demo data seeded successfully.')

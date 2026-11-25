@@ -19,14 +19,18 @@ import {
 } from '@mui/material'
 import { Edit3, Plus, Trash2 } from 'lucide-react'
 import { deleteNote, saveNote } from '../../store/slices/notesSlice'
+import { useAppFeedback } from '../../hooks/useAppFeedback'
+import ConfirmationDialog from '../../components/ConfirmationDialog'
 
 const emptyNote = { title: '', subject: 'General', content: '' }
 
 export default function NotesPage() {
   const dispatch = useDispatch()
+  const { showSnackbar, showToast } = useAppFeedback()
   const notes = useSelector((state) => state.notes.items)
   const [open, setOpen] = useState(false)
   const [draft, setDraft] = useState(emptyNote)
+  const [pendingDelete, setPendingDelete] = useState(null)
   const [subjectFilter, setSubjectFilter] = useState('All')
 
   const subjects = ['All', ...new Set(notes.map((note) => note.subject))]
@@ -42,6 +46,7 @@ export default function NotesPage() {
 
   const save = () => {
     if (!draft.title.trim() || !draft.content.trim()) return
+    const isEditing = Boolean(draft.id)
     dispatch(saveNote({
       ...draft,
       id: draft.id ?? `note-${Date.now()}`,
@@ -49,6 +54,18 @@ export default function NotesPage() {
     }))
     setDraft(emptyNote)
     setOpen(false)
+    showToast(isEditing ? 'Note updated.' : 'Note created.')
+  }
+
+  const confirmDelete = () => {
+    if (!pendingDelete) return
+    const deletedNote = pendingDelete
+    dispatch(deleteNote(deletedNote.id))
+    setPendingDelete(null)
+    showSnackbar(`"${deletedNote.title}" deleted.`, {
+      actionLabel: 'Undo',
+      onAction: () => dispatch(saveNote(deletedNote)),
+    })
   }
 
   return (
@@ -76,7 +93,7 @@ export default function NotesPage() {
                 <Chip label={note.subject} size="small" variant="outlined" />
                 <Stack direction="row">
                   <Button size="small" sx={{ minWidth: 36 }} onClick={() => editNote(note)} aria-label="Edit note"><Edit3 size={17} /></Button>
-                  <Button size="small" sx={{ minWidth: 36 }} color="error" onClick={() => dispatch(deleteNote(note.id))} aria-label="Delete note"><Trash2 size={17} /></Button>
+                  <Button size="small" sx={{ minWidth: 36 }} color="error" onClick={() => setPendingDelete(note)} aria-label={`Delete ${note.title}`}><Trash2 size={17} /></Button>
                 </Stack>
               </Stack>
               <Typography variant="h6" sx={{ mt: 1.5 }}>{note.title}</Typography>
@@ -106,6 +123,19 @@ export default function NotesPage() {
           <Button variant="contained" onClick={save} disabled={!draft.title.trim() || !draft.content.trim()}>Save note</Button>
         </DialogActions>
       </Dialog>
+      <ConfirmationDialog
+        open={Boolean(pendingDelete)}
+        title="Delete this note?"
+        description={(
+          <Typography color="text.secondary">
+            "{pendingDelete?.title}" will be removed. You can undo this for a short time after deletion.
+          </Typography>
+        )}
+        confirmLabel="Delete note"
+        confirmColor="error"
+        onCancel={() => setPendingDelete(null)}
+        onConfirm={confirmDelete}
+      />
     </Box>
   )
 }

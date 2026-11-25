@@ -83,14 +83,17 @@
 - `GET /api/exams/:examId`
 - `GET /api/courses`
 - `GET /api/courses/:courseId`
+- `GET /api/courses/enrolled`
+- `POST /api/courses/:courseId/enroll`
 - `GET /api/study-materials`
+- `GET /api/lectures`
 - `GET /api/lectures/:lectureId`
+- `GET /api/questions`
 - `GET /api/mock-tests`
 - `GET /api/mock-tests/:testId`
 - `POST /api/attempts`
 - `PATCH /api/attempts/:attemptId/answers`
 - `POST /api/attempts/:attemptId/submit`
-- `GET /api/practice/questions`
 - `GET /api/previous-papers`
 - `GET /api/current-affairs`
 - `GET /api/bookmarks`
@@ -102,3 +105,5 @@
 - `GET /api/analytics/me`
 - `GET /api/notifications`
 - `PATCH /api/notifications/:notificationId/read`
+
+Current affairs and previous-paper endpoints read from the backend JSON collections. Empty collections return empty arrays; the frontend does not substitute sample records.
