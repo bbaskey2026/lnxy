@@ -8,8 +8,9 @@ import App from './App.jsx'
 import { store } from './store'
 import { theme } from './themes/theme'
 import ErrorBoundary from './components/ErrorBoundary'
-import { restoreSession } from './store/slices/authSlice'
+import { logout, restoreSession } from './store/slices/authSlice'
 
+window.addEventListener('exampro:auth-expired', () => store.dispatch(logout()))
 store.dispatch(restoreSession())
 
 createRoot(document.getElementById('root')).render(

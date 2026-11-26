@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { asyncHandler } from '../middleware/asyncHandler.js'
 import { authorize } from '../middleware/authorize.js'
-import { validateRequest } from '../middleware/validateRequest.js'
+import { validateRequest } from '../middleware/validate.middleware.js'
 import { createMockTestValidator, updateMockTestValidator } from '../validators/mock-test.validator.js'
 
 export function createMockTestRoutes(controller, authenticateMiddleware) {

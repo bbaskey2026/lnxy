@@ -1,12 +1,11 @@
 import { Router } from 'express'
-import { env } from '../config/env.config.js'
-import { ApiResponse } from '../utils/ApiResponse.js'
-import { createAuthRoutes } from './auth.routes.js'
-import { createUserRoutes } from './user.routes.js'
-import { createExamRoutes } from './exam.routes.js'
+import { env } from '../config/env.js'
+import { createAuthRoutes } from '../modules/auth/auth.routes.js'
+import { createUserRoutes } from '../modules/users/user.routes.js'
+import { createExamRoutes } from '../modules/exams/exam.routes.js'
 import { createSubjectRoutes } from './subject.routes.js'
 import { createTopicRoutes } from './topic.routes.js'
-import { createCourseRoutes } from './course.routes.js'
+import { createCourseRoutes } from '../modules/courses/course.routes.js'
 import { createLectureRoutes } from './lecture.routes.js'
 import { createStudyMaterialRoutes } from './study-material.routes.js'
 import { createQuestionRoutes } from './question.routes.js'
@@ -23,13 +22,20 @@ import { createJsonCollectionRoutes } from './json-collection.routes.js'
 export function createApiRoutes(dependencies) {
   const router = Router()
   router.get('/health', (req, res) => {
-    res.json(ApiResponse.success({
-      status: 'ok',
-      persistence: env.PERSISTENCE,
-      timestamp: new Date().toISOString(),
-    }))
+    return res.status(200).json({
+      status: 'SUCCESS',
+      statusCode: 0,
+      statusDesc: 'Health check successful',
+      data: {
+        status: 'ok',
+        persistence: env.PERSISTENCE,
+        timestamp: new Date().toISOString(),
+      },
+    })
   })
-  router.use('/auth', createAuthRoutes(dependencies.authController, dependencies.authenticateMiddleware))
+  const authRoutes = createAuthRoutes(dependencies.authController, dependencies.authenticateMiddleware)
+  router.use('/auth', authRoutes)
+  router.use('/user/auth', authRoutes)
   router.use('/users', createUserRoutes(dependencies.userController, dependencies.authenticateMiddleware))
   router.use('/exams', createExamRoutes(dependencies.examController, dependencies.authenticateMiddleware))
   router.use('/subjects', createSubjectRoutes(dependencies.subjectController, dependencies.authenticateMiddleware))

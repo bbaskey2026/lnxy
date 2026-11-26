@@ -1,4 +1,4 @@
-import { env } from './env.config.js'
+import { env } from './env.js'
 
 export const appConfig = Object.freeze({
   name: 'ExamPro API',

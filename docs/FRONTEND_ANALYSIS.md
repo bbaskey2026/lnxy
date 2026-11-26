@@ -74,36 +74,36 @@
 
 ## Frontend API requirements
 
-- `POST /api/auth/register`
-- `POST /api/auth/login`
-- `POST /api/auth/refresh`
-- `POST /api/auth/logout`
-- `GET /api/auth/me`
-- `GET /api/exams`
-- `GET /api/exams/:examId`
-- `GET /api/courses`
-- `GET /api/courses/:courseId`
-- `GET /api/courses/enrolled`
-- `POST /api/courses/:courseId/enroll`
-- `GET /api/study-materials`
-- `GET /api/lectures`
-- `GET /api/lectures/:lectureId`
-- `GET /api/questions`
-- `GET /api/mock-tests`
-- `GET /api/mock-tests/:testId`
-- `POST /api/attempts`
-- `PATCH /api/attempts/:attemptId/answers`
-- `POST /api/attempts/:attemptId/submit`
-- `GET /api/previous-papers`
-- `GET /api/current-affairs`
-- `GET /api/bookmarks`
-- `POST /api/bookmarks/toggle`
-- `GET /api/notes`
-- `POST /api/notes`
-- `PATCH /api/notes/:noteId`
-- `DELETE /api/notes/:noteId`
-- `GET /api/analytics/me`
-- `GET /api/notifications`
-- `PATCH /api/notifications/:notificationId/read`
+- `POST /api/v1/auth/register`
+- `POST /api/v1/auth/login`
+- `POST /api/v1/auth/refresh`
+- `POST /api/v1/auth/logout`
+- `GET /api/v1/auth/me`
+- `GET /api/v1/exams`
+- `GET /api/v1/exams/:examId`
+- `GET /api/v1/courses`
+- `GET /api/v1/courses/:courseId`
+- `GET /api/v1/courses/enrolled`
+- `POST /api/v1/courses/:courseId/enroll`
+- `GET /api/v1/study-materials`
+- `GET /api/v1/lectures`
+- `GET /api/v1/lectures/:lectureId`
+- `GET /api/v1/questions`
+- `GET /api/v1/mock-tests`
+- `GET /api/v1/mock-tests/:testId`
+- `POST /api/v1/attempts`
+- `PATCH /api/v1/attempts/:attemptId/answers`
+- `POST /api/v1/attempts/:attemptId/submit`
+- `GET /api/v1/previous-papers`
+- `GET /api/v1/current-affairs`
+- `GET /api/v1/bookmarks`
+- `POST /api/v1/bookmarks/toggle`
+- `GET /api/v1/notes`
+- `POST /api/v1/notes`
+- `PATCH /api/v1/notes/:noteId`
+- `DELETE /api/v1/notes/:noteId`
+- `GET /api/v1/analytics/me`
+- `GET /api/v1/notifications`
+- `PATCH /api/v1/notifications/:notificationId/read`
 
 Current affairs and previous-paper endpoints read from the backend JSON collections. Empty collections return empty arrays; the frontend does not substitute sample records.

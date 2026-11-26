@@ -45,6 +45,7 @@ import { logout } from '../store/slices/authSlice'
 import { fetchNotifications } from '../store/slices/notificationSlice'
 import { authService } from '../services/authService'
 import ConfirmationDialog from '../components/ConfirmationDialog'
+import { useAppFeedback } from '../hooks/useAppFeedback'
 
 const drawerWidth = 248
 
@@ -68,6 +69,7 @@ export default function AppLayout() {
   const [collapsed, setCollapsed] = useState(false)
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false)
   const dispatch = useDispatch()
+  const { showToast } = useAppFeedback()
   const currentUser = useSelector((state) => state.auth.currentUser)
   const currentUserId = currentUser?.id
   const notificationState = useSelector((state) => state.notifications)
@@ -93,11 +95,16 @@ export default function AppLayout() {
     .slice(0, 2)
     .toUpperCase() ?? 'AR'
 
-  const confirmLogout = () => {
-    authService.logout()
-    dispatch(logout())
-    setLogoutDialogOpen(false)
-    navigate('/login', { replace: true })
+  const confirmLogout = async () => {
+    try {
+      await authService.logout()
+    } catch (error) {
+      showToast(error.message, 'error')
+    } finally {
+      dispatch(logout())
+      setLogoutDialogOpen(false)
+      navigate('/login', { replace: true })
+    }
   }
 
   const isPublicArea = ['/', '/exams', '/about', '/contact'].includes(location.pathname)

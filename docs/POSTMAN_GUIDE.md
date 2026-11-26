@@ -3,15 +3,17 @@
 Set an environment variable:
 
 ```text
-baseUrl = http://localhost:4000/api
+baseUrl = http://localhost:4000/api/v1
 ```
 
-## Login
+## Dashboard login
 
-1. Send `POST {{baseUrl}}/auth/login`.
+1. Send `POST {{baseUrl}}/user/auth/dashboard`.
 2. Copy `data.accessToken`.
-3. Set the `Authorization` header to `Bearer <accessToken>`.
+3. Set the `Authorization` header to `<accessToken>`; the `Bearer ` prefix is optional.
 4. Send requests to protected routes.
+
+`POST {{baseUrl}}/auth/dashboard`, `POST {{baseUrl}}/auth/login`, and `POST {{baseUrl}}/user/auth/login` remain available as compatibility aliases.
 
 ## Demo accounts
 

@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { asyncHandler } from '../middleware/asyncHandler.js'
-import { validateRequest } from '../middleware/validateRequest.js'
+import { validateRequest } from '../middleware/validate.middleware.js'
 import { z } from 'zod'
 
 export function createBookmarkRoutes(controller, authenticateMiddleware) {

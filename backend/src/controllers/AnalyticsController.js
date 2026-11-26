@@ -1,9 +1,15 @@
-import { ApiResponse } from '../utils/ApiResponse.js'
-
 export class AnalyticsController {
   constructor(analyticsService) {
     this.analyticsService = analyticsService
   }
 
-  getMe = async (req, res) => res.json(ApiResponse.success(await this.analyticsService.getForUser(req.user.id)))
+  getMe = async (req, res) => {
+    const data = await this.analyticsService.getForUser(req.user.id)
+    return res.status(200).json({
+      status: 'SUCCESS',
+      statusCode: 0,
+      statusDesc: 'Analytics fetched successfully',
+      data,
+    })
+  }
 }

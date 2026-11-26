@@ -12,6 +12,7 @@ const questionIds = [
 const mockTestIds = [
   '00000000-0000-4000-8000-000000000101',
   '00000000-0000-4000-8000-000000000102',
+  '00000000-0000-4000-8000-000000000103',
 ]
 
 export function createMockTestFixtures(exams) {
@@ -109,6 +110,7 @@ export function createMockTestFixtures(exams) {
       id: mockTestIds[0],
       examId: sscExam.id,
       title: 'SSC CGL Tier I - Full Mock 01',
+      mockTestType: 'full',
       category: 'Full-length',
       durationSeconds: 3600,
       positiveMarks: 2,
@@ -122,11 +124,26 @@ export function createMockTestFixtures(exams) {
       id: mockTestIds[1],
       examId: ossscExam.id,
       title: 'OSSSC RI - Arithmetic Sectional',
+      mockTestType: 'sectional',
       category: 'Sectional',
       durationSeconds: 1800,
       positiveMarks: 1,
       negativeMarks: 0.25,
       questionIds: questionIds.slice(6),
+      isActive: true,
+      createdAt: now,
+      updatedAt: now,
+    },
+    {
+      id: mockTestIds[2],
+      examId: sscExam.id,
+      title: 'SSC CGL Quantitative Aptitude - Topic Test',
+      mockTestType: 'topic',
+      category: 'Topic-based',
+      durationSeconds: 900,
+      positiveMarks: 2,
+      negativeMarks: 0.5,
+      questionIds: [questionIds[0], questionIds[4]],
       isActive: true,
       createdAt: now,
       updatedAt: now,

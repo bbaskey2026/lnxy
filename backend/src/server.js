@@ -1,15 +1,15 @@
-import pino from 'pino'
-import { env } from './config/env.config.js'
+import { env } from './config/env.js'
+import { createLogger } from './config/logger.js'
 import { createDatabase } from './config/database.js'
+import { createAuthPersistence } from './database/authPersistence.js'
 import { createApp } from './app.js'
 import { createApiRoutes } from './routes/index.js'
-import { AuthenticateMiddleware } from './middleware/authenticate.js'
+import { AuthenticateMiddleware } from './middleware/auth.middleware.js'
 
-import { UserRepository } from './repositories/UserRepository.js'
-import { ExamRepository } from './repositories/ExamRepository.js'
+import { ExamRepository } from './modules/exams/exam.repository.js'
 import { SubjectRepository } from './repositories/SubjectRepository.js'
 import { TopicRepository } from './repositories/TopicRepository.js'
-import { CourseRepository } from './repositories/CourseRepository.js'
+import { CourseRepository } from './modules/courses/course.repository.js'
 import { LectureRepository } from './repositories/LectureRepository.js'
 import { StudyMaterialRepository } from './repositories/StudyMaterialRepository.js'
 import { QuestionRepository } from './repositories/QuestionRepository.js'
@@ -19,13 +19,13 @@ import { ResultRepository } from './repositories/ResultRepository.js'
 import { BookmarkRepository } from './repositories/BookmarkRepository.js'
 import { NoteRepository } from './repositories/NoteRepository.js'
 
-import { AuthService } from './services/AuthService.js'
-import { UserService } from './services/UserService.js'
-import { ExamService } from './services/ExamService.js'
+import { AuthService } from './modules/auth/auth.service.js'
+import { UserService } from './modules/users/user.service.js'
+import { ExamService } from './modules/exams/exam.service.js'
 import { SubjectService } from './services/SubjectService.js'
 import { TopicService } from './services/TopicService.js'
-import { CourseService } from './services/CourseService.js'
-import { CourseEnrollmentService } from './services/CourseEnrollmentService.js'
+import { CourseService } from './modules/courses/course.service.js'
+import { CourseEnrollmentService } from './modules/courses/course-enrollment.service.js'
 import { LectureService } from './services/LectureService.js'
 import { StudyMaterialService } from './services/StudyMaterialService.js'
 import { QuestionService } from './services/QuestionService.js'
@@ -36,13 +36,15 @@ import { BookmarkService } from './services/BookmarkService.js'
 import { NoteService } from './services/NoteService.js'
 import { AnalyticsService } from './services/AnalyticsService.js'
 import { NotificationService } from './services/NotificationService.js'
+import { PasswordHasher } from './infrastructure/security/PasswordHasher.js'
+import { TokenService } from './infrastructure/security/TokenService.js'
 
-import { AuthController } from './controllers/AuthController.js'
-import { UserController } from './controllers/UserController.js'
-import { ExamController } from './controllers/ExamController.js'
+import { AuthController } from './modules/auth/auth.controller.js'
+import { UserController } from './modules/users/user.controller.js'
+import { ExamController } from './modules/exams/exam.controller.js'
 import { SubjectController } from './controllers/SubjectController.js'
 import { TopicController } from './controllers/TopicController.js'
-import { CourseController } from './controllers/CourseController.js'
+import { CourseController } from './modules/courses/course.controller.js'
 import { LectureController } from './controllers/LectureController.js'
 import { StudyMaterialController } from './controllers/StudyMaterialController.js'
 import { QuestionController } from './controllers/QuestionController.js'
@@ -54,11 +56,12 @@ import { NoteController } from './controllers/NoteController.js'
 import { AnalyticsController } from './controllers/AnalyticsController.js'
 import { NotificationController } from './controllers/NotificationController.js'
 
-const logger = pino({ level: env.NODE_ENV === 'development' ? 'debug' : 'info' })
+const logger = createLogger(env)
 const database = createDatabase()
 await database.initialize()
-
-const userRepository = new UserRepository(database)
+const authPersistence = await createAuthPersistence({ logger })
+const { mongoDatabase, userRepository, refreshTokenRepository } = authPersistence
+logger.info({ event: 'auth.persistence.selected', storage: authPersistence.storage }, 'Authentication persistence selected')
 const examRepository = new ExamRepository(database)
 const subjectRepository = new SubjectRepository(database)
 const topicRepository = new TopicRepository(database)
@@ -72,8 +75,15 @@ const resultRepository = new ResultRepository(database)
 const bookmarkRepository = new BookmarkRepository(database)
 const noteRepository = new NoteRepository(database)
 
-const authenticateMiddleware = new AuthenticateMiddleware(userRepository)
-const authService = new AuthService(userRepository, database)
+const passwordHasher = new PasswordHasher()
+const tokenService = new TokenService()
+const authenticateMiddleware = new AuthenticateMiddleware(userRepository, tokenService)
+const authService = new AuthService({
+  userRepository,
+  refreshTokenRepository,
+  passwordHasher,
+  tokenService,
+})
 const userService = new UserService(userRepository)
 const examService = new ExamService(examRepository)
 const subjectService = new SubjectService(subjectRepository)
@@ -136,10 +146,18 @@ const server = app.listen(env.PORT, () => {
 
 const shutdown = (signal) => {
   logger.info({ signal }, 'Shutdown requested')
-  server.close((error) => {
+  server.close(async (error) => {
     if (error) {
       logger.error({ err: error }, 'Server shutdown failed')
       process.exitCode = 1
+    }
+    if (mongoDatabase) {
+      try {
+        await mongoDatabase.close()
+      } catch (closeError) {
+        logger.error({ err: closeError }, 'MongoDB shutdown failed')
+        process.exitCode = 1
+      }
     }
     process.exit()
   })

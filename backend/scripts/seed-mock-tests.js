@@ -1,6 +1,6 @@
 import crypto from 'node:crypto'
 import { JsonDatabase } from '../src/database/json/JsonDatabase.js'
-import { env } from '../src/config/env.config.js'
+import { env } from '../src/config/env.js'
 import { createMockTestFixtures } from './mockTestFixtures.js'
 
 const database = new JsonDatabase(env.JSON_DATA_DIRECTORY)

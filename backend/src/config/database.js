@@ -1,4 +1,4 @@
-import { env } from './env.config.js'
+import { env } from './env.js'
 import { JsonDatabase } from '../database/json/JsonDatabase.js'
 
 export function createDatabase() {

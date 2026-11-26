@@ -1,4 +1,4 @@
-import { env } from './env.config.js'
+import { env } from './env.js'
 
 export function createCorsOptions() {
   return {

@@ -1,32 +1,43 @@
 [
   {
-    "id": "5d5f0e62-ad5c-40d1-bd1b-39ae3172fe24",
+    "id": "f46a7a83-8fc6-4d87-83ba-05af6b5e814a",
     "name": "Admin Test",
     "email": "admin@exampro.com",
-    "passwordHash": "$argon2id$v=19$m=19456,t=2,p=1$x3X5Z2utlwg+EhLAEvJSfg$yNCUhaXURJ5zZfnN4TnVL6fF1gBvbUf5hQ/nI82nqUs",
+    "passwordHash": "$argon2id$v=19$m=19456,t=2,p=1$k8D3KoikIFFcokEFbOPkEQ$IDzqmR0DjIfYnJct29+5/Y72CgnDnytr9Cd1eVf19xM",
     "role": "admin",
     "status": "active",
-    "createdAt": "2026-11-25T13:44:17.131Z",
-    "updatedAt": "2026-11-25T13:44:17.139Z"
+    "createdAt": "2026-11-26T11:27:25.088Z",
+    "updatedAt": "2026-11-26T11:27:25.095Z"
   },
   {
-    "id": "eab39190-82ef-46f7-8acd-11a0d0209468",
-    "createdAt": "2026-11-25T13:44:17.816Z",
-    "updatedAt": "2026-11-25T13:44:17.816Z",
+    "id": "9e3974de-796f-4370-a56c-f6e2a3431ea9",
+    "createdAt": "2026-11-26T11:27:25.298Z",
+    "updatedAt": "2026-11-26T11:27:25.298Z",
     "name": "Test Student",
     "email": "student@example.com",
-    "passwordHash": "$argon2id$v=19$m=65536,t=3,p=4$6E+3QwhiRNck9geFsgnU3g$CiMV0UzO2L+6zrHne0K6qLqJfcT+v7gMh7CEgiUXM/4",
+    "passwordHash": "$argon2id$v=19$m=19456,t=2,p=1$NZ+FBdH4OIvGaevnzW71uA$M55ci7AvROH7YzR5+xpOsHPP9IXYD7fZWE+r4VeqNs0",
     "role": "student",
     "status": "active",
     "targetExam": null
   },
   {
-    "id": "0ad2df56-3d23-4487-be7d-52acd42562f5",
-    "createdAt": "2026-11-25T14:16:08.607Z",
-    "updatedAt": "2026-11-25T14:16:08.607Z",
-    "name": "BHIMA BASKEY",
-    "email": "bhimabaskey26@gmail.com",
-    "passwordHash": "$argon2id$v=19$m=65536,t=3,p=4$Xv4k2nu4T+Bb0hRYHJGspA$LK9RTIWg3s7jWFCfHkoDUgjFvFIHQRB35e0xWwc4BqI",
+    "id": "24113182-73ce-4856-a142-c284809b7f7a",
+    "createdAt": "2026-11-26T11:27:25.387Z",
+    "updatedAt": "2026-11-26T11:27:25.387Z",
+    "name": "Refresh Student",
+    "email": "refresh@example.com",
+    "passwordHash": "$argon2id$v=19$m=19456,t=2,p=1$e6RGegd1jDeKKj+U/s2v5Q$bezRSmUjvMeVQKnjiin2JtmDR3rS4GIGdyzsCJYZiNA",
+    "role": "student",
+    "status": "active",
+    "targetExam": null
+  },
+  {
+    "id": "2bea5750-33b4-480e-9bf8-bceb8d981964",
+    "createdAt": "2026-11-26T11:27:25.484Z",
+    "updatedAt": "2026-11-26T11:27:25.484Z",
+    "name": "Restricted Student",
+    "email": "restricted@example.com",
+    "passwordHash": "$argon2id$v=19$m=19456,t=2,p=1$7E/OVDls2oUPqfnGAYZVyQ$YmZSUFyj8Eeggnif3axvH87sYSi94eq+wqf4y0A/bpU",
     "role": "student",
     "status": "active",
     "targetExam": null

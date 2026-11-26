@@ -37,7 +37,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     currentUser: storedUser,
-    status: storedUser ? 'authenticated' : 'idle',
+    status: 'loading',
     role: storedUser?.role ?? null,
     error: null,
   },
@@ -61,7 +61,7 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(restoreSession.pending, (state) => {
-        if (state.currentUser) state.status = 'loading'
+        state.status = 'loading'
       })
       .addCase(restoreSession.fulfilled, (state, action) => {
         const { accessToken: _accessToken, ...safeUser } = action.payload

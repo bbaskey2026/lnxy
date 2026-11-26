@@ -30,6 +30,8 @@ import {
 } from 'lucide-react'
 import { logout } from '../store/slices/authSlice'
 import ConfirmationDialog from '../components/ConfirmationDialog'
+import { authService } from '../services/authService'
+import { useAppFeedback } from '../hooks/useAppFeedback'
 
 const drawerWidth = 248
 const navigation = [
@@ -46,16 +48,23 @@ export default function AdminLayout() {
   const [collapsed, setCollapsed] = useState(false)
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false)
   const dispatch = useDispatch()
+  const { showToast } = useAppFeedback()
   const navigate = useNavigate()
   const location = useLocation()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const width = collapsed && !isMobile ? 88 : drawerWidth
 
-  const confirmLogout = () => {
-    dispatch(logout())
-    setLogoutDialogOpen(false)
-    navigate('/login', { replace: true })
+  const confirmLogout = async () => {
+    try {
+      await authService.logout()
+    } catch (error) {
+      showToast(error.message, 'error')
+    } finally {
+      dispatch(logout())
+      setLogoutDialogOpen(false)
+      navigate('/login', { replace: true })
+    }
   }
 
   const drawer = (
